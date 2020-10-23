@@ -1,0 +1,20 @@
+<h4>{{artistName}} - Search</h4>
+<mat-divider></mat-divider>
+<div class="row">
+  <div class="col-xs-6 col-sm-3" *ngFor="let album of albumArray">
+    <mat-card class="album-card" (mouseover)="toggleHover(album.id)" (mouseleave)="removeHover()"> 
+      <mat-card-content (click)="playTracks(album)"> 
+        <div class="pos-rlt">
+            <div class="item-overlay play-overlay center">
+                <mat-icon *ngIf="hoverButton === album.id" mat-list-icon>play_arrow_rounded</mat-icon>
+            </div>
+            <img [src]="album.coverImageName"  width="100%" class="responsive-image"> 
+        </div>
+    </mat-card-content>
+    <mat-card-header class="album-header">
+        <mat-card-title class="album-title" (click)="onGetTracks(album)">{{album.title}}</mat-card-title>
+        <mat-card-subtitle (click)="onGetTracks(album)">{{album.artists}}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+<app-artist [searchKey]="searchKey" *ngIf="searchKey!==''"></app-artist>
+<h4>Featured</h4>
+<mat-divider></mat-divider>
+<div class="row">
+    <div class="col-xs-6 col-sm-3" *ngFor="let album of featuredArray">
+        <mat-card class="album-card" (mouseover)="toggleHover(album.id)" (mouseleave)="removeHover()"> 
+            <mat-card-content (click)="playTracks(album)"> 
+                <div class="pos-rlt">
+                    <div class="item-overlay play-overlay center">
+                        <mat-icon *ngIf="hoverButton === album.id" mat-list-icon>play_arrow_rounded</mat-icon>
+                    </div>
+                    <img [src]="album.coverImageName"  width="100%" class="responsive-image"> 
+                </div>
+            </mat-card-content>
+                <mat-card-header class="">
+                    <mat-card-title class="" routerLink="/album/{{album.id}}">{{album.title}}</mat-card-title>
+                    <mat-card-subtitle routerLink="/search/{{album.artists}}">{{album.artists}}</mat-card-subtitle>
+                </mat-card-header>
+        </mat-card>
+    </div>
+</div>
+<h4>Mixtapes</h4>
+<mat-divider></mat-divider>
+<div class="row">
+    <div class="col-lg-2 col-md-4 col-sm-6" *ngFor="let album of mixtapeArray">
+        <mat-card class="album-card" (mouseover)="toggleHover(album.id)" (mouseleave)="removeHover()"> 
+            <mat-card-content (click)="playTracks(album)"> 
+                <div class="pos-rlt">
+                    <div class="item-overlay play-overlay center">
+                        <mat-icon *ngIf="hoverButton === album.id" mat-list-icon>play_arrow_rounded</mat-icon>
+                    </div>
+                    <img [src]="album.coverImageName"  width="100%" class="responsive-image">
+                </div>
+            </mat-card-content>
+            <mat-card-header class="album-header">
+                <mat-card-title class="album-title" (click)="onGetTracks(album)">{{album.title}}</mat-card-title>
+                <mat-card-subtitle (click)="onGetTracks(album)">{{album.artists}}</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+    </div>
+</div>
+<button mat-raised-button color="primary" routerLink='/mixtapes/newest'>View More</button>
+<br>
+
+<h4>Videos</h4>
+<mat-divider></mat-divider>
+<div class="row">
+    <div class="col-lg-2 col-md-4 col-sm-6" *ngFor="let album of videoArray">
+        <mat-card class="album-card" matRipple (click)="onGetTracks(album)"> 
+            <mat-card-content>
+            <img [src]="album.videoPoster"  width="100%" class="responsive-image">
+            </mat-card-content>
+            <mat-card-header class="album-header">
+            <mat-card-title class="album-title">{{album.title}}</mat-card-title>
+            <mat-card-subtitle>{{album.artists}}</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+    </div>
+</div>
+<button mat-raised-button color="primary">View More</button>
+<br>
+
+<h4>Trending Singles</h4>
+<mat-divider></mat-divider>
+<div class="row">
+    <div class="col-xs-6 col-sm-4" *ngFor="let track of singleArray;let indexOfelement=index;">
+        <mat-card class="single-card" (mouseover)="toggleHover(track.id)" (mouseleave)="removeHover()"> 
+                <mat-card-content (click)="playSingles(indexOfelement)" class="home-card-content">
+                    <div class="pos-rlt">
+                        <div class="item-overlay play-overlay center">
+                            <mat-icon *ngIf="hoverButton === track.id" mat-list-icon>play_arrow_rounded</mat-icon>
+                        </div>            
+                        <img mat-card-image [src]="track.album.coverImageName"  height="100%" class="responsive-image">
+                    </div>
+                    <div>
+                        <div>{{track.trackTitle}}</div>
+                        <div>{{track.album.title}}</div>
+                    </div>
+                </mat-card-content>
+                <!--mat-card-header class="album-header-right mat-card-header">
+                <mat-card-title class="album-title">{{track.trackTitle}}</mat-card-title>
+                <mat-card-subtitle>{{track.album.title}}</mat-card-subtitle>
+                </mat-card-header-->
+        </mat-card>
+    </div>
+</div>
+
+<h4>Radio Genres</h4>
+<mat-divider></mat-divider>
+<div class="row">
+    <div class="col-xs-6 col-sm-3" *ngFor="let radio of radioArray">
+        <mat-card class="album-card" matRipple (mouseover)="toggleHover(radio.id)" (mouseleave)="removeHover()" (click)="getRadio(radio)"> 
+            <mat-card-content>
+                <div class="pos-rlt">
+                    <div class="item-overlay play-overlay center">
+                            <mat-icon *ngIf="hoverButton === radio.id" mat-list-icon>play_arrow_rounded</mat-icon>
+                    </div>
+                    <img [src]="radio.coverImageName"  width="100%" class="responsive-image">
+                </div>
+            </mat-card-content>
+            <mat-card-header class="album-header">
+            <mat-card-title class="album-title">{{radio.title}}</mat-card-title>
+            </mat-card-header>
+        </mat-card>
+    </div>
+</div>

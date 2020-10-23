@@ -1,0 +1,41 @@
+    <!--div class="row"-->
+<mat-toolbar-row id="audio-player">
+
+    <img *ngIf="coverImage && (coverImage.endsWith('jpg') || coverImage.endsWith('png'))" width="80" length="80" src="{{ coverImage }}" />
+    <div id="title" class="row">
+        <mat-card-subtitle *ngIf="currentTrack" style="width:100px;color: white;">{{currentTrack.album.artists}}</mat-card-subtitle>
+        <div *ngIf="trackTitle" class="scrolling-container">
+            <div class="scrolling-text" [@scroll]="state" (@scroll.done)="scrollDone()">{{trackTitle}}</div>
+        </div>
+    </div>
+
+    <button [disableRipple]="true" (click)="prev()" mat-icon-button>
+        <mat-icon mat-list-icon>skip_previous_rounded</mat-icon>
+    </button>
+
+    <button [disableRipple]="true" (click)="play()" *ngIf="!isPlaying" mat-icon-button>
+        <mat-icon mat-list-icon>play_arrow_rounded</mat-icon>
+    </button>
+
+    <button  *ngIf="isPlaying" (click)="pause()" [disableRipple]="true" mat-icon-button>
+        <mat-icon mat-list-icon>pause_rounded</mat-icon>
+    </button>
+
+    <button style="margin-right: 10px;" [disableRipple]="true" (click)="next()" mat-icon-button>
+        <mat-icon mat-list-icon>skip_next_rounded</mat-icon>
+    </button>
+
+    <div style="width: 100%;">
+        <div id="waveform"></div>
+    </div>
+</mat-toolbar-row>
+
+
+
+
+                    <!--md-tooltip>
+                        {{control.surfer.isPlaying() ? 'Pause' : 'Play'}}
+                    </md-tooltip>
+                    <md-icon ng-show="control.surfer.isPlaying()" md-font-icon="zmdi zmdi-pause"></md-icon>
+                    <md-icon ng-show="!control.surfer.isPlaying()" md-font-icon="zmdi zmdi-play"></md-icon-->
+<!--audio controls #player="" (ended)="playerEnded()"-->
