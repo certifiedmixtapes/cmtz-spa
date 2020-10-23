@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { PlayerService } from '../shared/player.service';
 import WaveSurfer from 'wavesurfer.js';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+declare let process: any;
 
 
 
@@ -40,6 +41,8 @@ export class PlayerComponent implements OnInit {
     playerSer.playTrack$.subscribe(order => {
       this.trackIndex = Number(order);
       this.currentTrack = this.playerSer.getQueue()[this.trackIndex];
+      const env = process.env.NODE_ENV;
+
       if(this.currentTrack.trackTitle.includes("-")){
         var artists = this.currentTrack.album.artists;
         this.trackTitle = this.currentTrack.trackTitle.replace(artists, "");
@@ -49,7 +52,13 @@ export class PlayerComponent implements OnInit {
         this.trackTitle = this.currentTrack.trackTitle;
       }
       this.coverImage = this.currentTrack.album.thumbImg;
-      var trackUrl = this.currentTrack.trackURL;
+      var trackUrl = this.currentTrack.trackURL//.replace("http","https");
+
+      if (env  === 'production') {
+        trackUrl = this.currentTrack.trackURL.replace("http","https");
+        this.coverImage = this.currentTrack.album.thumbImg.replace("http","https");
+      }
+
       this.playTrack(trackUrl);
     });
 
