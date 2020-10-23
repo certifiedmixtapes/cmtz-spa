@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { PlayerService } from '../shared/player.service';
 import WaveSurfer from 'wavesurfer.js';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-declare let process: any;
+import { environment } from '../../environments/environment';
 
 
 
@@ -54,9 +54,9 @@ export class PlayerComponent implements OnInit {
       this.coverImage = this.currentTrack.album.thumbImg;
       var trackUrl = this.currentTrack.trackURL//.replace("http","https");
 
-      if (env  === 'production') {
-        trackUrl = this.currentTrack.trackURL.replace("http","https");
-        this.coverImage = this.currentTrack.album.thumbImg.replace("http","https");
+      if (environment.production) {
+        trackUrl = this.currentTrack.trackURL.replace("http:","https:");
+        this.coverImage = this.currentTrack.album.thumbImg.replace("http:","https:");
       }
 
       this.playTrack(trackUrl);
