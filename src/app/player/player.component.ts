@@ -41,7 +41,6 @@ export class PlayerComponent implements OnInit {
     playerSer.playTrack$.subscribe(order => {
       this.trackIndex = Number(order);
       this.currentTrack = this.playerSer.getQueue()[this.trackIndex];
-      const env = process.env.NODE_ENV;
 
       if(this.currentTrack.trackTitle.includes("-")){
         var artists = this.currentTrack.album.artists;
