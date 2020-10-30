@@ -7,7 +7,7 @@ import { Component, OnInit, OnDestroy, Input, Output, ViewChild, EventEmitter, E
 export class InfinitescrollComponent implements OnInit, OnDestroy {
   @Input() options = {};
   @Output() scrolled = new EventEmitter();
-  @ViewChild('anchor') anchor: ElementRef<HTMLElement>;
+  @ViewChild('anchor', { static: true }) anchor: ElementRef<HTMLElement>;
 
   private observer: IntersectionObserver;
 

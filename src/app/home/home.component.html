@@ -46,7 +46,7 @@
 <mat-divider></mat-divider>
 <div class="row">
     <div class="col-lg-2 col-md-4 col-sm-6" *ngFor="let album of videoArray">
-        <mat-card class="album-card" matRipple (click)="onGetTracks(album)"> 
+        <mat-card class="album-card" matRipple routerLink="/video/{{album.id}}"> 
             <mat-card-content>
             <img [src]="album.videoPoster"  width="100%" class="responsive-image">
             </mat-card-content>

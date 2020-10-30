@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ItunesService } from '../shared/itunes.service';
 import { filter, map } from 'rxjs/operators';
+import {environment} from 'src/environments/environment';
 
 @Component({
   selector: 'app-artist',
@@ -32,7 +33,7 @@ export class ArtistComponent implements OnInit {
   }
 
   searchByArtist(searchTerm){
-    fetch('https://www.certifiedmixtapez.com/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=3&searchString=" + searchTerm "&currentPage=1&itemsPerPage=12').then(
+    fetch( environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=3&searchString=" + searchTerm "&currentPage=1&itemsPerPage=12').then(
       res => {
         res.json().then( response =>{
           console.log(response);

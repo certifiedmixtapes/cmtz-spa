@@ -13,7 +13,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav'
-
+import { NgxYoutubePlayerModule  } from "ngx-youtube-player";
 import { AppComponent } from './app.component';
 import { ArtistComponent } from './artist/artist.component';
 import { AlbumComponent } from './album/album.component';
@@ -28,6 +28,9 @@ import { AlbumDetailsComponent } from './album-details/album-details.component';
 import { InfinitescrollComponent } from './infinitescroll/infinitescroll.component';
 import { NewMixtapesComponent } from './new-mixtapes/new-mixtapes.component';
 import { PopularMixtapesComponent } from './popular-mixtapes/popular-mixtapes.component';
+import { VideoDetailsComponent } from './video-details/video-details.component';
+import { CommonModule } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -44,9 +47,11 @@ import { PopularMixtapesComponent } from './popular-mixtapes/popular-mixtapes.co
     InfinitescrollComponent,
     NewMixtapesComponent,
     PopularMixtapesComponent,
+    VideoDetailsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    NgxYoutubePlayerModule.forRoot(),
     HttpClientModule,
     HttpClientJsonpModule,
     BrowserAnimationsModule,
@@ -61,7 +66,8 @@ import { PopularMixtapesComponent } from './popular-mixtapes/popular-mixtapes.co
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatRippleModule
+    MatRippleModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent],

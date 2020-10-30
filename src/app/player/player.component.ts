@@ -21,7 +21,7 @@ import { environment } from '../../environments/environment';
   ]
 })
 export class PlayerComponent implements OnInit {
-  @ViewChild('player')
+  @ViewChild('player', { static: false })
   playerRef;
   player: any;
   wave: WaveSurfer = null;
@@ -31,6 +31,9 @@ export class PlayerComponent implements OnInit {
   isPlaying:boolean;
   trackIndex: number;
   state = 0;
+  queueShowing = false;
+  queueTracks: Array<any> = [];
+
 
   scrollDone() {
     this.state++;
@@ -96,6 +99,11 @@ export class PlayerComponent implements OnInit {
   next(){
     this.trackIndex = this.trackIndex + 1;
     this.playerSer.playTrack(this.trackIndex.toString())
+  }
+
+  toggleQueue(){
+    this.queueShowing = !this.queueShowing;
+    this.queueTracks = this.playerSer.getQueue();
   }
 
   prev() {

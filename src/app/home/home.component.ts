@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { PlayerService } from '../shared/player.service';
+import { VideoService } from '../shared/video.service';
 
 
 
@@ -22,12 +24,12 @@ export class HomeComponent implements OnInit {
   search(value: string) {
     this.searchKey = value;
   }
-  constructor(private router: Router, private playerService: PlayerService) {}
+  constructor(private router: Router, private playerService: PlayerService, private videoService: VideoService) {}
 
   ngOnInit() {
 
     //Featured
-    fetch('https://www.certifiedmixtapez.com/api/mixtapes/featured?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').then(
+    fetch(environment.apiUrl + '/api/mixtapes/featured?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').then(
       res => {
         res.json().then( response =>{
           this.featuredArray = response.responseObject;
@@ -36,7 +38,7 @@ export class HomeComponent implements OnInit {
     );
 
     // New Mixtapes
-      fetch('https://www.certifiedmixtapez.com/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').then(
+      fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').then(
       res => {
         res.json().then( response =>{
           this.mixtapeArray = response.responseObject[0].items;
@@ -45,7 +47,7 @@ export class HomeComponent implements OnInit {
     );
 
     // New Videos
-    fetch('https://www.certifiedmixtapez.com/api/videos/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').then(
+    fetch(environment.apiUrl + '/api/videos/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').then(
       res => {
         res.json().then( response =>{
           this.videoArray = response.responseObject[0].items;
@@ -54,7 +56,7 @@ export class HomeComponent implements OnInit {
     );
 
     // Trending Single
-    fetch('https://www.certifiedmixtapez.com/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&trackSort=4&range=1&singleType=1&itemsPerPage=20&currentPage=1').then(
+    fetch( environment.apiUrl + '/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&trackSort=4&range=1&singleType=1&itemsPerPage=20&currentPage=1').then(
           res => {
             res.json().then( response =>{
               this.singleArray = response.responseObject[0].items;    
@@ -63,14 +65,13 @@ export class HomeComponent implements OnInit {
      );
 
      // Radio Genre
-    fetch('https://www.certifiedmixtapez.com/api/radio/list?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').then(
+    fetch( environment.apiUrl + '/api/radio/list?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').then(
       res => {
         res.json().then( response =>{
           this.radioArray = response.responseObject;
         })
       }
  );
-
   }
 
   toggleHover(id) {
@@ -83,7 +84,7 @@ export class HomeComponent implements OnInit {
 
   playTracks(album){
     var id = album.id;
-      fetch('https://www.certifiedmixtapez.com/api/tracks?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&albumId='+ id).then(
+      fetch(environment.apiUrl + '/api/tracks?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&albumId='+ id).then(
       res => {
         res.json().then( response =>{
           var tracks = response.responseObject;
@@ -105,6 +106,18 @@ export class HomeComponent implements OnInit {
     this.playerService.playTrack(start.toString());
   }
 
+  playVideo(index){
+    console.log(index)
+    this.videoService.queueTracks(this.singleArray);
+    //this.playerService.shouldShow(true);
+    var start = Number(index);
+    /*this.router.navigate([
+      "video",
+      album.id,
+    ]);*/
+    //this.playerService.playTrack(start.toString());
+  }
+
   onGetTracks(album) {
     //this.ituneService.tracksSubject.next(album);
     console.log(album)
@@ -116,7 +129,7 @@ export class HomeComponent implements OnInit {
 
   getRadio(radioStation){
     var genre = radioStation.genreType;
-    fetch('https://www.certifiedmixtapez.com/api/radio?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&genre='+ genre).then(
+    fetch(environment.apiUrl + '/api/radio?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&genre='+ genre).then(
       res => {
         res.json().then( response =>{
           console.log("Genre: "+ genre);

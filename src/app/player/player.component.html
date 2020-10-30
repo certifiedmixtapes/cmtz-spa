@@ -1,39 +1,387 @@
-    <!--div class="row"-->
+<!--div class="row"-->
 <mat-toolbar-row id="audio-player">
+  <img
+    *ngIf="
+      coverImage && (coverImage.endsWith('jpg') || coverImage.endsWith('png'))
+    "
+    width="80"
+    length="80"
+    src="{{ coverImage }}"
+  />
+  <div id="title" class="row">
+    <mat-card-subtitle
+      *ngIf="currentTrack"
+      style="width: 100px; color: white"
+      >{{ currentTrack.album.artists }}</mat-card-subtitle
+    >
+    <div *ngIf="trackTitle" class="scrolling-container">
+      <div
+        class="scrolling-text"
+        [@scroll]="state"
+        (@scroll.done)="scrollDone()"
+      >
+        {{ trackTitle }}
+      </div>
+    </div>
+  </div>
 
-    <img *ngIf="coverImage && (coverImage.endsWith('jpg') || coverImage.endsWith('png'))" width="80" length="80" src="{{ coverImage }}" />
-    <div id="title" class="row">
-        <mat-card-subtitle *ngIf="currentTrack" style="width:100px;color: white;">{{currentTrack.album.artists}}</mat-card-subtitle>
-        <div *ngIf="trackTitle" class="scrolling-container">
-            <div class="scrolling-text" [@scroll]="state" (@scroll.done)="scrollDone()">{{trackTitle}}</div>
+  <button [disableRipple]="true" (click)="prev()" mat-icon-button>
+    <mat-icon mat-list-icon>skip_previous_rounded</mat-icon>
+  </button>
+
+  <button
+    [disableRipple]="true"
+    (click)="play()"
+    *ngIf="!isPlaying"
+    mat-icon-button
+  >
+    <mat-icon mat-list-icon>play_arrow_rounded</mat-icon>
+  </button>
+
+  <button
+    *ngIf="isPlaying"
+    (click)="pause()"
+    [disableRipple]="true"
+    mat-icon-button
+  >
+    <mat-icon mat-list-icon>pause_rounded</mat-icon>
+  </button>
+
+  <button
+    style="margin-right: 10px"
+    [disableRipple]="true"
+    (click)="next()"
+    mat-icon-button
+  >
+    <mat-icon mat-list-icon>skip_next_rounded</mat-icon>
+  </button>
+
+  <div style="width: 100%">
+    <div id="waveform"></div>
+  </div>
+  <span class="u-pos-relative">
+    <div *ngIf="queueShowing"
+      id="player-queue-menu"
+      class="player-queue-menu tooltip tooltip--down-right-arrow tooltip--active"
+    >
+      <header
+        class="player-queue-menu__header u-left-right u-d-flex--align-center"
+      >
+        <h3 class="u-fs-18 u-ls-n-06">
+          <svg
+            class="u-text-icon u-text-orange"
+            width="19px"
+            height="18px"
+            viewBox="0 0 19 18"
+            version="1.1"
+          >
+            <path
+              d="M15,5.1428571 L0,5.1428571 L0,7.7142857 L15,7.7142857 L15,5.1428571 Z M15,0 L0,0 L0,2.5714286 L15,2.5714286 L15,0 Z M0,12.8571429 L0,10.2857143 L10,10.2857143 L10,12.8571429 L0,12.8571429 Z M18.786675,13.6581877 C18.786675,13.6581877 19,13.8008535 19,14.0000189 C19,14.199851 18.786675,14.3425168 18.786675,14.3425168 L12.794325,17.8781617 C12.357525,18.1509933 12,17.9498279 12,17.4323311 L12,10.5683735 C12,10.05021 12.357525,9.8490446 12.794325,10.1217096 L18.786675,13.6581877 Z"
+            ></path>
+          </svg>
+          Your Queue
+        </h3>
+        <div class="player-queue-menu__actions u-d-flex u-d-flex--align-center">
+          <button
+            data-tooltip="Shuffle"
+            class="u-spacing-right-em player-queue-menu__shuffle"
+            aria-label="Shuffle queue"
+          >
+            <svg width="21" height="20" viewBox="0 0 21 20">
+              <path
+                fill="#FFF"
+                fill-rule="evenodd"
+                d="M16.429 5.856c-2.663 0-4.003 2.12-5.555 4.576-1.59 2.517-3.393 5.37-7.017 5.37H1v-1.658h2.857c2.662 0 4.003-2.12 5.554-4.576 1.591-2.517 3.394-5.37 7.018-5.37h.407V1L21 5.028l-4.164 4.027V5.856h-.407zM8.103 8.46C6.99 6.942 5.763 5.856 3.857 5.856H1V4.2h2.857c2.372 0 3.964 1.222 5.227 2.773-.35.5-.674 1.003-.98 1.488zm8.733 5.684v-3.199L21 14.973 16.836 19v-3.199h-.407c-2.373 0-3.965-1.222-5.227-2.773.35-.5.674-1.003.98-1.487 1.114 1.517 2.342 2.603 4.247 2.603h.407z"
+              ></path>
+            </svg>
+          </button>
+          <button
+            class="button button--pill"
+            aria-label="Save current queue as a playlist"
+          >
+            <svg
+              class="u-text-icon u-text-icon--wide"
+              width="20px"
+              height="14px"
+              viewBox="0 0 20 14"
+              version="1.1"
+            >
+              <path
+                d="M11.6666667,4 L0,4 L0,6 L11.6666667,6 L11.6666667,4 Z M11.6666667,0 L0,0 L0,2 L11.6666667,2 L11.6666667,0 Z M15.5555556,8 L15.5555556,4 L13.6111111,4 L13.6111111,8 L9.7222222,8 L9.7222222,10 L13.6111111,10 L13.6111111,14 L15.5555556,14 L15.5555556,10 L19.4444444,10 L19.4444444,8 L15.5555556,8 Z M0,10 L7.7777778,10 L7.7777778,8 L0,8 L0,10 Z"
+              ></path>
+            </svg>
+            Save as playlist
+          </button>
+          <button
+            class="button button--pill"
+            aria-label="Clear the current queue"
+          >
+            Clear
+          </button>
+          <button
+            class="player-queue-menu__close"
+            title="Close"
+            aria-label="Close queue menu"
+          >
+            <svg width="18" height="18" viewBox="712 20 18 18">
+              <path
+                d="M723.59 29.288c-.164-.165-.164-.41 0-.575l6.164-6.164c.165-.167.245-.416.245-.576 0-.165-.08-.413-.248-.58l-1.15-1.15c-.166-.165-.41-.245-.576-.245-.248 0-.413.08-.577.245l-6.164 6.164c-.165.163-.41.163-.575 0l-6.163-6.165c-.164-.165-.413-.245-.573-.245-.165 0-.413.08-.58.247l-1.15 1.15c-.165.167-.245.415-.245.58 0 .16.08.41.244.573l6.164 6.163c.162.166.162.41 0 .575l-6.166 6.164c-.165.164-.245.413-.245.577 0 .163.08.41.244.572l1.15 1.15c.168.166.416.246.58.246.16 0 .41-.08.574-.246l6.164-6.164c.167-.163.41-.163.576 0l6.164 6.165c.165.165.414.245.578.245.165 0 .41-.08.575-.245l1.15-1.15c.167-.166.247-.41.247-.576 0-.166-.08-.415-.247-.58l-6.164-6.163z"
+              ></path>
+            </svg>
+          </button>
         </div>
+      </header>
+      <div class="player-queue-menu__list" style="position: relative">
+        <div style="overflow: visible; height: 0px; width: 0px">
+          <div
+            aria-label="grid"
+            aria-readonly="true"
+            class="u-scrollable u-scrollable--light"
+            role="grid"
+            tabindex="0"
+            style="
+              box-sizing: border-box;
+              direction: ltr;
+              height: 440px;
+              position: relative;
+              width: 610px;
+              will-change: transform;
+              overflow: hidden auto;
+            "
+          >
+            <div
+              class=""
+              role="rowgroup"
+              style="
+                width: auto;
+                max-width: 610px;
+                max-height: 1110px;
+                overflow: hidden;
+                position: relative;
+              "
+            >
+
+            <div style="color:white" class="row" *ngFor="let track of queueTracks">
+
+                {{track.trackTitle}}
+            </div>
+              <!--div
+                class="u-sortable-item"
+                style="
+                  height: 45px;
+                  left: 0px;
+                  position: absolute;
+                  top: 0px;
+                  width: 100%;
+                "
+              >
+                <span class="u-drag-handle u-drag-handle--queue u-text-gray9"
+                  ><svg width="18" height="13" viewBox="0 0 18 13">
+                    <path
+                      d="M17.7774115,0.111277565 C17.9262833,0.185432646 18,0.273519895 18,0.375 L18,1.125 C18,1.22648011 17.9255641,1.31420781 17.7774115,1.3883629 C17.6292589,1.46278763 17.4535974,1.5 17.2498876,1.5 L0.750112373,1.5 C0.547121752,1.5 0.37146025,1.46278763 0.222588475,1.3883629 C0.0744358874,1.31420781 0,1.22648011 0,1.125 L0,0.375 C0,0.273519895 0.0744358874,0.185432646 0.222588475,0.111277565 C0.370741063,0.0372123682 0.547121752,0 0.750112373,0 L17.2498876,0 C17.4535974,0 17.6292589,0.0372123682 17.7774115,0.111277565 Z M17.2498876,10.9729204 C17.4535974,10.9729204 17.6292589,11.0101328 17.7774115,11.0842879 C17.9262833,11.1583531 18,11.2464403 18,11.3479204 L18,12.0979204 C18,12.1994005 17.9255641,12.2871283 17.7774115,12.3616429 C17.6292589,12.4357081 17.4535974,12.4729204 17.2498876,12.4729204 L0.750112373,12.4729204 C0.547121752,12.4729204 0.37146025,12.4357081 0.222588475,12.3616429 C0.0744358874,12.2871283 0,12.1994005 0,12.0979204 L0,11.3479204 C0,11.2464403 0.0744358874,11.1583531 0.222588475,11.0842879 C0.370741063,11.0101328 0.547121752,10.9729204 0.750112373,10.9729204 L17.2498876,10.9729204 Z M17.2498876,5.48646022 C17.4535974,5.48646022 17.6292589,5.52367259 17.7774115,5.59782767 C17.9255641,5.67189287 18,5.75998011 18,5.86146022 L18,6.61146022 C18,6.71294033 17.9255641,6.80102757 17.7774115,6.87518265 C17.6292589,6.94924785 17.4535974,6.98646022 17.2498876,6.98646022 L0.750112373,6.98646022 C0.547121752,6.98646022 0.37146025,6.94924785 0.222588475,6.87518265 C0.0744358874,6.80102757 0,6.71294033 0,6.61146022 L0,5.86146022 C0,5.75998011 0.0744358874,5.67189287 0.222588475,5.59782767 C0.370741063,5.52367259 0.547121752,5.48646022 0.750112373,5.48646022 L17.2498876,5.48646022 Z"
+                    ></path>
+                  </svg>
+                </span>
+                <div
+                  class="tracklist__track listen__tracklist-track tracklist__track--draggable tracklist__track--inactive tracklist__track--dark tracklist__track--queue"
+                  role="listitem"
+                >
+                  <div
+                    class="tracklist__track-details u-d-flex u-d-flex--align-center u-fs-13 u-pos-relative"
+                  >
+                    <button
+                      class="tracklist__track-add"
+                      data-track-index="0"
+                      data-track-action="playlist"
+                      aria-label="Add track to a playlist"
+                      tabindex="0"
+                    >
+                      <svg width="14" height="14">
+                        <path
+                          d="M6.3 6.3V0h1.4v6.3H14v1.4H7.7V14H6.3V7.7H0V6.3h6.3z"
+                        ></path>
+                      </svg>
+                    </button>
+                    <button
+                      class="tracklist__track-details-left u-d-flex u-d-flex--align-center"
+                      data-track-index="0"
+                      tabindex="0"
+                    >
+                      <span
+                        class="tracklist__track-title u-trunc u-ls-n-05 u-d-flex u-d-flex--align-center"
+                      >
+                        <span class="tracklist__track-artwork"
+                          ><img
+                            src="https://assets.audiomack.com/sada-baby/ffb1d9f14c0d8d0d943421a1155caeb3cc87ce569f707277767e1016f2a95d2f.jpeg?width=50&amp;height=50&amp;max=true"
+                            alt=""
+                            srcset="
+                              https://assets.audiomack.com/sada-baby/ffb1d9f14c0d8d0d943421a1155caeb3cc87ce569f707277767e1016f2a95d2f.jpeg?width=100&amp;height=100&amp;max=true 2x
+                            "
+                        /></span>
+                        <span class="tracklist__details-wrap">
+                          <span class="u-d-block u-trunc"
+                            >Whole Lotta Choppas (Remix)
+                            <span class="tracklist__track-featuring"
+                              >(<span>feat. </span
+                              ><span>Nicki Minaj</span>)</span
+                            >
+                          </span>
+                          <span class="tracklist__track-artist u-trunc"
+                            >Sada Baby</span
+                          ></span
+                        ></span
+                      ><span class="tracklist__track-details-right"
+                        ><span class="tracklist__track-duration"
+                          >2:53</span
+                        ></span
+                      ></button
+                    ><button
+                      class="tracklist__track-remove"
+                      data-track-index="0"
+                      data-track-action="remove-track"
+                    >
+                      <svg width="18" height="18" viewBox="712 20 18 18">
+                        <path
+                          d="M723.59 29.288c-.164-.165-.164-.41 0-.575l6.164-6.164c.165-.167.245-.416.245-.576 0-.165-.08-.413-.248-.58l-1.15-1.15c-.166-.165-.41-.245-.576-.245-.248 0-.413.08-.577.245l-6.164 6.164c-.165.163-.41.163-.575 0l-6.163-6.165c-.164-.165-.413-.245-.573-.245-.165 0-.413.08-.58.247l-1.15 1.15c-.165.167-.245.415-.245.58 0 .16.08.41.244.573l6.164 6.163c.162.166.162.41 0 .575l-6.166 6.164c-.165.164-.245.413-.245.577 0 .163.08.41.244.572l1.15 1.15c.168.166.416.246.58.246.16 0 .41-.08.574-.246l6.164-6.164c.167-.163.41-.163.576 0l6.164 6.165c.165.165.414.245.578.245.165 0 .41-.08.575-.245l1.15-1.15c.167-.166.247-.41.247-.576 0-.166-.08-.415-.247-.58l-6.164-6.163z"
+                        ></path>
+                      </svg>
+                    </button>
+                    <ul
+                      class="tracklist__track-interactions u-d-flex u-d-flex--align-center"
+                    >
+                      <li class="u-pos-relative">
+                        <button
+                          class="tracklist__track-interaction-icon tracklist__track-interaction-icon--dots u-d-block"
+                          aria-label="Show more actions"
+                        >
+                          <svg viewBox="0 0 81 20.4">
+                            <circle cx="10.2" cy="10.2" r="10.2"></circle>
+                            <circle cx="40.8" cy="10.2" r="10.2"></circle>
+                            <circle cx="70.8" cy="10.2" r="10.2"></circle>
+                          </svg>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div-->
+              
+              <!--div
+                class="u-sortable-item"
+                style="
+                  height: 45px;
+                  left: 0px;
+                  position: absolute;
+                  top: 675px;
+                  width: 100%;
+                "
+              >
+                <span class="u-drag-handle u-drag-handle--queue u-text-gray9"
+                  ><svg width="18" height="13" viewBox="0 0 18 13">
+                    <path
+                      d="M17.7774115,0.111277565 C17.9262833,0.185432646 18,0.273519895 18,0.375 L18,1.125 C18,1.22648011 17.9255641,1.31420781 17.7774115,1.3883629 C17.6292589,1.46278763 17.4535974,1.5 17.2498876,1.5 L0.750112373,1.5 C0.547121752,1.5 0.37146025,1.46278763 0.222588475,1.3883629 C0.0744358874,1.31420781 0,1.22648011 0,1.125 L0,0.375 C0,0.273519895 0.0744358874,0.185432646 0.222588475,0.111277565 C0.370741063,0.0372123682 0.547121752,0 0.750112373,0 L17.2498876,0 C17.4535974,0 17.6292589,0.0372123682 17.7774115,0.111277565 Z M17.2498876,10.9729204 C17.4535974,10.9729204 17.6292589,11.0101328 17.7774115,11.0842879 C17.9262833,11.1583531 18,11.2464403 18,11.3479204 L18,12.0979204 C18,12.1994005 17.9255641,12.2871283 17.7774115,12.3616429 C17.6292589,12.4357081 17.4535974,12.4729204 17.2498876,12.4729204 L0.750112373,12.4729204 C0.547121752,12.4729204 0.37146025,12.4357081 0.222588475,12.3616429 C0.0744358874,12.2871283 0,12.1994005 0,12.0979204 L0,11.3479204 C0,11.2464403 0.0744358874,11.1583531 0.222588475,11.0842879 C0.370741063,11.0101328 0.547121752,10.9729204 0.750112373,10.9729204 L17.2498876,10.9729204 Z M17.2498876,5.48646022 C17.4535974,5.48646022 17.6292589,5.52367259 17.7774115,5.59782767 C17.9255641,5.67189287 18,5.75998011 18,5.86146022 L18,6.61146022 C18,6.71294033 17.9255641,6.80102757 17.7774115,6.87518265 C17.6292589,6.94924785 17.4535974,6.98646022 17.2498876,6.98646022 L0.750112373,6.98646022 C0.547121752,6.98646022 0.37146025,6.94924785 0.222588475,6.87518265 C0.0744358874,6.80102757 0,6.71294033 0,6.61146022 L0,5.86146022 C0,5.75998011 0.0744358874,5.67189287 0.222588475,5.59782767 C0.370741063,5.52367259 0.547121752,5.48646022 0.750112373,5.48646022 L17.2498876,5.48646022 Z"
+                    ></path></svg
+                ></span>
+                <div
+                  class="tracklist__track listen__tracklist-track tracklist__track--draggable tracklist__track--dark tracklist__track--queue"
+                  role="listitem"
+                >
+                  <div
+                    class="tracklist__track-details u-d-flex u-d-flex--align-center u-fs-13 u-pos-relative"
+                  >
+                    <button
+                      class="tracklist__track-add"
+                      data-track-index="15"
+                      data-track-action="playlist"
+                      aria-label="Add track to a playlist"
+                      tabindex="0"
+                    >
+                      <svg width="14" height="14">
+                        <path
+                          d="M6.3 6.3V0h1.4v6.3H14v1.4H7.7V14H6.3V7.7H0V6.3h6.3z"
+                        ></path>
+                      </svg></button
+                    ><button
+                      class="tracklist__track-details-left u-d-flex u-d-flex--align-center"
+                      data-track-index="15"
+                      tabindex="0"
+                    >
+                      <span
+                        class="tracklist__track-title u-trunc u-ls-n-05 u-d-flex u-d-flex--align-center"
+                        ><span class="tracklist__track-artwork"
+                          ><img
+                            src="https://assets.audiomack.com/youngboy-never-broke-again/faa1e029d634027fe5df8d0d6b44f324a8197bd5eca11c1949f33df4375adda9.jpeg?width=50&amp;height=50&amp;max=true"
+                            alt=""
+                            srcset="
+                              https://assets.audiomack.com/youngboy-never-broke-again/faa1e029d634027fe5df8d0d6b44f324a8197bd5eca11c1949f33df4375adda9.jpeg?width=100&amp;height=100&amp;max=true 2x
+                            " /></span
+                        ><span class="tracklist__details-wrap"
+                          ><span class="u-d-block u-trunc">Boom </span
+                          ><span class="tracklist__track-artist u-trunc"
+                            >YoungBoy Never Broke Again</span
+                          ></span
+                        ></span
+                      ><span class="tracklist__track-details-right"
+                        ><span class="tracklist__track-duration"
+                          >2:28</span
+                        ></span
+                      ></button
+                    ><button
+                      class="tracklist__track-remove"
+                      data-track-index="15"
+                      data-track-action="remove-track"
+                    >
+                      <svg width="18" height="18" viewBox="712 20 18 18">
+                        <path
+                          d="M723.59 29.288c-.164-.165-.164-.41 0-.575l6.164-6.164c.165-.167.245-.416.245-.576 0-.165-.08-.413-.248-.58l-1.15-1.15c-.166-.165-.41-.245-.576-.245-.248 0-.413.08-.577.245l-6.164 6.164c-.165.163-.41.163-.575 0l-6.163-6.165c-.164-.165-.413-.245-.573-.245-.165 0-.413.08-.58.247l-1.15 1.15c-.165.167-.245.415-.245.58 0 .16.08.41.244.573l6.164 6.163c.162.166.162.41 0 .575l-6.166 6.164c-.165.164-.245.413-.245.577 0 .163.08.41.244.572l1.15 1.15c.168.166.416.246.58.246.16 0 .41-.08.574-.246l6.164-6.164c.167-.163.41-.163.576 0l6.164 6.165c.165.165.414.245.578.245.165 0 .41-.08.575-.245l1.15-1.15c.167-.166.247-.41.247-.576 0-.166-.08-.415-.247-.58l-6.164-6.163z"
+                        ></path>
+                      </svg>
+                    </button>
+                    <ul
+                      class="tracklist__track-interactions u-d-flex u-d-flex--align-center"
+                    >
+                      <li class="u-pos-relative">
+                        <button
+                          class="tracklist__track-interaction-icon tracklist__track-interaction-icon--dots u-d-block"
+                          aria-label="Show more actions"
+                        >
+                          <svg viewBox="0 0 81 20.4">
+                            <circle cx="10.2" cy="10.2" r="10.2"></circle>
+                            <circle cx="40.8" cy="10.2" r="10.2"></circle>
+                            <circle cx="70.8" cy="10.2" r="10.2"></circle>
+                          </svg>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div-->
+
+              
+              <!---->
+            </div>
+          </div>
+        </div>
+        <div class="resize-triggers">
+          <div class="expand-trigger">
+            <div style="width: 611px; height: 441px"></div>
+          </div>
+          <div class="contract-trigger"></div>
+        </div>
+      </div>
     </div>
-
-    <button [disableRipple]="true" (click)="prev()" mat-icon-button>
-        <mat-icon mat-list-icon>skip_previous_rounded</mat-icon>
+    <button
+      style="margin-right: 10px"
+      [disableRipple]="true"
+      (click)="toggleQueue()"
+      mat-icon-button
+    >
+      <mat-icon mat-list-icon>playlist_play</mat-icon>
     </button>
-
-    <button [disableRipple]="true" (click)="play()" *ngIf="!isPlaying" mat-icon-button>
-        <mat-icon mat-list-icon>play_arrow_rounded</mat-icon>
-    </button>
-
-    <button  *ngIf="isPlaying" (click)="pause()" [disableRipple]="true" mat-icon-button>
-        <mat-icon mat-list-icon>pause_rounded</mat-icon>
-    </button>
-
-    <button style="margin-right: 10px;" [disableRipple]="true" (click)="next()" mat-icon-button>
-        <mat-icon mat-list-icon>skip_next_rounded</mat-icon>
-    </button>
-
-    <div style="width: 100%;">
-        <div id="waveform"></div>
-    </div>
+  </span>
 </mat-toolbar-row>
 
-
-
-
-                    <!--md-tooltip>
+<!--md-tooltip>
                         {{control.surfer.isPlaying() ? 'Pause' : 'Play'}}
                     </md-tooltip>
                     <md-icon ng-show="control.surfer.isPlaying()" md-font-icon="zmdi zmdi-pause"></md-icon>

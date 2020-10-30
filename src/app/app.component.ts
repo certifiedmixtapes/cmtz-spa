@@ -3,6 +3,9 @@ import { ItunesService } from './shared/itunes.service';
 import { fromEvent,interval } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { PlayerService } from './shared/player.service';
+import { environment } from 'src/environments/environment'
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 
 
 @Component({
@@ -11,15 +14,21 @@ import { PlayerService } from './shared/player.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit,AfterViewInit {
-  @ViewChild('searchBox') searchInput: ElementRef;
+  @ViewChild('searchBox', { static: true }) searchInput: ElementRef;
   // (keyup)="search(searchBox.value)"
 
   hideResult:boolean;
+  isMobile: boolean;
   searchResults: Array<any> = [];
-  constructor(private ituneService: ItunesService, private playerService: PlayerService) {}
+  constructor(private ituneService: ItunesService, private playerService: PlayerService, private deviceService: DeviceDetectorService) {
+    this.checkBrowser();
+  }
 
   ngOnInit(){
+  }
 
+  checkBrowser(){
+    this.isMobile = this.deviceService.isMobile();
   }
 
   ngAfterViewInit(){
@@ -54,7 +63,7 @@ export class AppComponent implements OnInit,AfterViewInit {
 
   searchByArtist(searchTerm){
     console.log("Term: " + searchTerm);
-    fetch('https://www.certifiedmixtapez.com/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=3&searchString=' + searchTerm + '&currentPage=1&itemsPerPage=12').then(
+    fetch( environment .apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=3&searchString=' + searchTerm + '&currentPage=1&itemsPerPage=12').then(
       res => {
         res.json().then( response =>{
           console.log(response);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlayerService } from '../shared/player.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-popular-mixtapes',
@@ -16,7 +17,7 @@ export class PopularMixtapesComponent implements OnInit {
 
   ngOnInit() {
     // Popular Mixtapes
-    fetch('https://www.certifiedmixtapez.com/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&sort=4&range=3&currentPage=1&itemsPerPage=12').then(
+    fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&sort=4&range=3&currentPage=1&itemsPerPage=12').then(
       res => {
         res.json().then( response =>{
           this.mixtapeArray = response.responseObject[0].items;
@@ -28,7 +29,7 @@ export class PopularMixtapesComponent implements OnInit {
   onScroll(){
     this.page = this.page + 1;
     console.log("onScrolling " + this.page) ;
-    fetch('https://www.certifiedmixtapez.com/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&sort=4&range=3&currentPage=' + this.page +'&itemsPerPage=12').then(
+    fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&sort=4&range=3&currentPage=' + this.page +'&itemsPerPage=12').then(
           res => {
             res.json().then( response =>{
               var nextPage = response.responseObject[0].items;
@@ -57,7 +58,7 @@ export class PopularMixtapesComponent implements OnInit {
 
   playTracks(album){
     var id = album.id;
-      fetch('https://www.certifiedmixtapez.com/api/tracks?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&albumId='+ id).then(
+      fetch(environment.apiUrl + '/api/tracks?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&albumId='+ id).then(
       res => {
         res.json().then( response =>{
           var tracks = response.responseObject;
