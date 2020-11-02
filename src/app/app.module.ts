@@ -30,6 +30,10 @@ import { NewMixtapesComponent } from './new-mixtapes/new-mixtapes.component';
 import { PopularMixtapesComponent } from './popular-mixtapes/popular-mixtapes.component';
 import { VideoDetailsComponent } from './video-details/video-details.component';
 import { CommonModule } from '@angular/common';
+import { DeviceDetectorModule } from 'ngx-device-detector';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkTreeModule } from '@angular/cdk/tree';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 @NgModule({
@@ -51,10 +55,14 @@ import { CommonModule } from '@angular/common';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    DeviceDetectorModule.forRoot(),
     NgxYoutubePlayerModule.forRoot(),
     HttpClientModule,
     HttpClientJsonpModule,
     BrowserAnimationsModule,
+    CdkTableModule,
+    CdkTreeModule,
+    DragDropModule,
     MatTableModule,
     MatListModule,
     MatToolbarModule,

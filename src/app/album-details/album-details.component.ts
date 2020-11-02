@@ -49,7 +49,6 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
             this.selectedAlbum = response.responseObject[0].album;
             this.selectedAlbum.trackCount = response.responseObject.length;
             this.tracks = response.responseObject;
-            this.playerService.queueTracks(this.tracks);
           })
         }
       );
@@ -58,6 +57,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   playTrack(track) {
+    this.playerService.queueTracks(this.tracks);
     this.playerService.shouldShow(true);
     console.log(track);
     var order = Number(track.order) -1;

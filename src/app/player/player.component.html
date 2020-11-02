@@ -62,12 +62,12 @@
   <span class="u-pos-relative">
     <div *ngIf="queueShowing"
       id="player-queue-menu"
-      class="player-queue-menu tooltip tooltip--down-right-arrow tooltip--active"
+      class="player-queue-menu tooltip tooltip--down-right-arrow {{queueActive}}"
     >
       <header
         class="player-queue-menu__header u-left-right u-d-flex--align-center"
       >
-        <h3 class="u-fs-18 u-ls-n-06">
+        <h3 style="color:white !important" class="u-fs-18 u-ls-n-06">
           <svg
             class="u-text-icon u-text-orange"
             width="19px"
@@ -81,12 +81,11 @@
           </svg>
           Your Queue
         </h3>
-        <div class="player-queue-menu__actions u-d-flex u-d-flex--align-center">
-          <button
+        <div style="color:white !important" class="player-queue-menu__actions u-d-flex u-d-flex--align-center">
+          <!--button
             data-tooltip="Shuffle"
             class="u-spacing-right-em player-queue-menu__shuffle"
-            aria-label="Shuffle queue"
-          >
+            aria-label="Shuffle queue" mat-icon-button>
             <svg width="21" height="20" viewBox="0 0 21 20">
               <path
                 fill="#FFF"
@@ -94,7 +93,7 @@
                 d="M16.429 5.856c-2.663 0-4.003 2.12-5.555 4.576-1.59 2.517-3.393 5.37-7.017 5.37H1v-1.658h2.857c2.662 0 4.003-2.12 5.554-4.576 1.591-2.517 3.394-5.37 7.018-5.37h.407V1L21 5.028l-4.164 4.027V5.856h-.407zM8.103 8.46C6.99 6.942 5.763 5.856 3.857 5.856H1V4.2h2.857c2.372 0 3.964 1.222 5.227 2.773-.35.5-.674 1.003-.98 1.488zm8.733 5.684v-3.199L21 14.973 16.836 19v-3.199h-.407c-2.373 0-3.965-1.222-5.227-2.773.35-.5.674-1.003.98-1.487 1.114 1.517 2.342 2.603 4.247 2.603h.407z"
               ></path>
             </svg>
-          </button>
+          </button-->
           <button
             class="button button--pill"
             aria-label="Save current queue as a playlist"
@@ -118,27 +117,23 @@
           >
             Clear
           </button>
-          <button
+          <!--button
             class="player-queue-menu__close"
             title="Close"
             aria-label="Close queue menu"
+            mat-icon-button
           >
             <svg width="18" height="18" viewBox="712 20 18 18">
               <path
                 d="M723.59 29.288c-.164-.165-.164-.41 0-.575l6.164-6.164c.165-.167.245-.416.245-.576 0-.165-.08-.413-.248-.58l-1.15-1.15c-.166-.165-.41-.245-.576-.245-.248 0-.413.08-.577.245l-6.164 6.164c-.165.163-.41.163-.575 0l-6.163-6.165c-.164-.165-.413-.245-.573-.245-.165 0-.413.08-.58.247l-1.15 1.15c-.165.167-.245.415-.245.58 0 .16.08.41.244.573l6.164 6.163c.162.166.162.41 0 .575l-6.166 6.164c-.165.164-.245.413-.245.577 0 .163.08.41.244.572l1.15 1.15c.168.166.416.246.58.246.16 0 .41-.08.574-.246l6.164-6.164c.167-.163.41-.163.576 0l6.164 6.165c.165.165.414.245.578.245.165 0 .41-.08.575-.245l1.15-1.15c.167-.166.247-.41.247-.576 0-.166-.08-.415-.247-.58l-6.164-6.163z"
               ></path>
             </svg>
-          </button>
+          </button-->
         </div>
       </header>
-      <div class="player-queue-menu__list" style="position: relative">
+      <div  class="" style="position: relative">
         <div style="overflow: visible; height: 0px; width: 0px">
           <div
-            aria-label="grid"
-            aria-readonly="true"
-            class="u-scrollable u-scrollable--light"
-            role="grid"
-            tabindex="0"
             style="
               box-sizing: border-box;
               direction: ltr;
@@ -151,7 +146,6 @@
           >
             <div
               class=""
-              role="rowgroup"
               style="
                 width: auto;
                 max-width: 610px;
@@ -160,11 +154,34 @@
                 position: relative;
               "
             >
+            <mat-table [dataSource]="dataSource" 
+                class="mat-elevation-z8" cdkDropList  #list1="cdkDropList" style="background: black; color:white"
+                [cdkDropListData]="queueTracks" [cdkDropListConnectedTo]="[list2]" (cdkDropListDropped)="drop($event)" id="tracks" #tracks>
+                <ng-container  matColumnDef="Number">
+                    <th mat-header-cell *matHeaderCellDef style="width:60px"> # </th>
+                    <td style="color:white !important" mat-cell *matCellDef="let element"> {{element.order}} </td>
+                  </ng-container>
 
-            <div style="color:white" class="row" *ngFor="let track of queueTracks">
-
-                {{track.trackTitle}}
-            </div>
+                  <!--ng-container matColumnDef="Cover">
+                    <th mat-header-cell *matHeaderCellDef style="width:60px"> Cover </th>
+                    <td style="margin-left:6px;color:white !important" mat-cell *matCellDef="let element">
+                        <img width="30"  length="30" src="{{ element.coverImageName }}"/> 
+                    </td>
+                  </ng-container-->
+                
+                  <ng-container style="color:white !important" matColumnDef="Name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td  style="color:white !important" mat-cell *matCellDef="let element"> {{element.trackTitle}} </td>
+                  </ng-container>
+            <mat-row  class="queue-tracks" *matRowDef="let row; columns: displayedColumns;" cdkDrag></mat-row>          
+            </mat-table>
+            <!--div
+                cdkDropList
+                [cdkDropListData]="todo"
+                class="example-list"
+                (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let item of queueTracks" cdkDrag>{{item.trackTitle}}</div>
+                </div-->
               <!--div
                 class="u-sortable-item"
                 style="

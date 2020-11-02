@@ -132,16 +132,21 @@ button:focus, button:active:focus, button.active:focus {
   transition: color .2s ease-in-out;
   z-index: 2;
 }
-.button, button {
-  border-radius: 0;
+.button {
+  border: 0;
+  background: #3b97f9;
+  display: inline-block;
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 18px;
+  line-height: 1;
+  position: relative;
+  cursor: pointer;
+  transition: background-color .2s ease-in-out,color .2s ease-in-out;
 }
-button {
-  border: none;
-  background: none;
-  padding: 0;
-  color: inherit;
-  font-size: inherit;
-  font-weight: inherit;
+
+.button--pill {
+  border-radius: 20px;
 }
 
 .tracklist__track--dark .tracklist__track-duration, .tracklist__track--dark .tracklist__track-title {
@@ -172,6 +177,10 @@ button {
 .u-text-gray9 {
   color: #d8d8d8;
 }
+
+//.queue-tracks:hover{
+//  background-color: #666;
+//}
 
 #audio-player {
     width: 100%;

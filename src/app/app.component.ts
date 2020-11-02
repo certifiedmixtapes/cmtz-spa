@@ -1,10 +1,11 @@
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { ItunesService } from './shared/itunes.service';
-import { fromEvent,interval } from 'rxjs';
+import { fromEvent,interval, Subscription } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { PlayerService } from './shared/player.service';
 import { environment } from 'src/environments/environment'
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { Router } from '@angular/router';
 
 
 
@@ -19,8 +20,9 @@ export class AppComponent implements OnInit,AfterViewInit {
 
   hideResult:boolean;
   isMobile: boolean;
+  buttonStream$: Subscription
   searchResults: Array<any> = [];
-  constructor(private ituneService: ItunesService, private playerService: PlayerService, private deviceService: DeviceDetectorService) {
+  constructor(private router: Router, private ituneService: ItunesService, private playerService: PlayerService, private deviceService: DeviceDetectorService) {
     this.checkBrowser();
   }
 
@@ -32,13 +34,23 @@ export class AppComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit(){
-    let buttonStream$=fromEvent(this.searchInput.nativeElement, 'keyup')
+     let buttonStream$=fromEvent(this.searchInput.nativeElement, 'keyup')
     .pipe(debounceTime(1000))
     .subscribe(()=>{
       console.log("search: " + this.searchInput.nativeElement.value);
       this.searchByArtist(this.searchInput.nativeElement.value);
     });
+    this.buttonStream$ = buttonStream$;
 
+  }
+
+  searchEnter(search){
+    this.onResultClick();
+    this.buttonStream$.unsubscribe()
+    this.router.navigate([
+      "search",
+      search,
+    ]);
   }
 
   onResultClick(){

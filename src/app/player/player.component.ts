@@ -3,6 +3,11 @@ import { PlayerService } from '../shared/player.service';
 import WaveSurfer from 'wavesurfer.js';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { environment } from '../../environments/environment';
+import { MatTable, MatTableDataSource } from '@angular/material';
+import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@angular/cdk/drag-drop';
+import clonedeep from 'lodash.clonedeep';
+
+
 
 
 
@@ -21,7 +26,10 @@ import { environment } from '../../environments/environment';
   ]
 })
 export class PlayerComponent implements OnInit {
+  @ViewChild('tracks', { static: false }) table: MatTable<any>;
+  @ViewChild('list1', { static: false }) list1: CdkDropList;
   @ViewChild('player', { static: false })
+
   playerRef;
   player: any;
   wave: WaveSurfer = null;
@@ -33,6 +41,11 @@ export class PlayerComponent implements OnInit {
   state = 0;
   queueShowing = false;
   queueTracks: Array<any> = [];
+  dataSource;
+  queueActive: string
+  displayedColumns: string[] = ['Number', 'Name'];
+
+
 
 
   scrollDone() {
@@ -73,6 +86,37 @@ export class PlayerComponent implements OnInit {
     this.player = this.playerRef.nativeElement;
   }
 
+  dropTable(event: CdkDragDrop<string[]>) {
+    console.log(event);
+    const prevIndex = this.dataSource.data.findIndex((d) => d === event.item.data);
+    moveItemInArray(this.dataSource.data, prevIndex, event.currentIndex);
+    //this.playerSer.queueTracks(this.dataSource.data);
+
+    this.table.renderRows();
+  }
+
+
+  drop(event: CdkDragDrop<string[]>) {
+    console.log("event: " + event);
+
+    if (event.previousContainer === event.container) {
+
+      moveItemInArray(this.queueTracks, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+    }
+
+    // updates moved data and table, but not dynamic if more dropzones
+    //this.dataSource.data = clonedeep(this.dataSource.data);
+    //this.playerSer.queueTracks(this.dataSource.data);
+    console.log("trackdata: " + JSON.stringify(this.dataSource.data));
+    //this.table.renderRows();
+
+  }
+
   playTrack(previewUrl) {
     //this.player.src = previewUrl;
     //this.player.play();
@@ -103,7 +147,21 @@ export class PlayerComponent implements OnInit {
 
   toggleQueue(){
     this.queueShowing = !this.queueShowing;
+    if(this.queueShowing){
+      this.queueActive = "tooltip--active"
+    }
+    else{
+      this.queueActive = ""
+    }
+
     this.queueTracks = this.playerSer.getQueue();
+    this.dataSource = new MatTableDataSource(this.queueTracks);
+
+    console.log("table: " + this.table);
+  }
+
+  isQueueShowing(){
+    return this.queueShowing;
   }
 
   prev() {

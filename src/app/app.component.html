@@ -11,7 +11,8 @@
   <div class="col-md-6 col-xs-10">
     <div class="search-container">
       <i style="color: #3b97f9;" class="fa fa-search search-icon"></i>
-      <input type="text" placeholder="Search Artist" class="search-input" #searchBox>
+      <input type="text" (keyup.enter)="searchEnter(searchBox.value)"
+      placeholder="Search Artist" class="search-input" #searchBox>
       <mat-list class="mat-elevation-z3 search-result" *ngIf="searchResults.length>0 && !hideResult">
         <mat-list-item class="search-result-item" role="listitem" *ngFor="let artist of searchResults">
           <a (click)="onResultClick()" [routerLink]="['search', artist.artists]">{{artist.artists}}</a>
