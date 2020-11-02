@@ -6,6 +6,7 @@ import { PlayerService } from './shared/player.service';
 import { environment } from 'src/environments/environment'
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material';
 
 
 
@@ -17,9 +18,11 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit,AfterViewInit {
   @ViewChild('searchBox', { static: true }) searchInput: ElementRef;
   // (keyup)="search(searchBox.value)"
+  @ViewChild('drawer', { static: false }) drawer: MatSidenav;
+
 
   hideResult:boolean;
-  isMobile: boolean;
+  isMobile: boolean = false;
   buttonStream$: Subscription
   searchResults: Array<any> = [];
   constructor(private router: Router, private ituneService: ItunesService, private playerService: PlayerService, private deviceService: DeviceDetectorService) {
