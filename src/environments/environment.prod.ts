@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: "http://www.certifiedmixtapez.com"
+  apiUrl: "https://www.certifiedmixtapez.com"
 };
