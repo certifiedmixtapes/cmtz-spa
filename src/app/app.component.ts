@@ -6,7 +6,7 @@ import { PlayerService } from './shared/player.service';
 import { environment } from 'src/environments/environment'
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Router } from '@angular/router';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 
 
 

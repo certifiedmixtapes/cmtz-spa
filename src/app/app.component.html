@@ -42,7 +42,7 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-  <bottom-nav-wrapper *ngIf="isMobile">
+  <bottom-nav-wrapper bottomNavHeight="75px"  *ngIf="isMobile">
       <application-content>
         <div  class="container">
           <div class="body_container">
@@ -60,16 +60,23 @@
         <bottom-nav-item link="">
           home
         </bottom-nav-item>
+        
+        <bottom-nav-item [link]="'/mixtapes/popular'" [exact]="true">
+          show_chart
+        </bottom-nav-item>
 
         <bottom-nav-item [link]="'/mixtapes/popular'" [exact]="true">
-          thumb_up
+          local_fire_department
         </bottom-nav-item>
      
         <!-- The label is optional and adds a ... label to the icon -->
-        <bottom-nav-item link="'/mixtapes/newest'" [exact]="true" label="watch">
-          watch_later
+        <bottom-nav-item link="'/mixtapes/newest'" [exact]="true" >
+          offline_bolt
         </bottom-nav-item>
-     
+
+        <!--bottom-nav-item link="'/mixtapes/newest'" [exact]="true" >
+          videocam
+        </bottom-nav-item-->     
       </bottom-nav>    
   </bottom-nav-wrapper>
 <mat-toolbar role="footer" style="background:black;" class="mat-elevation-z3 music-control" [hidden]="!showing()" >
