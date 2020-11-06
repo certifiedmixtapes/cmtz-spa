@@ -26,9 +26,9 @@ import clonedeep from 'lodash.clonedeep';
   ]
 })
 export class PlayerComponent implements OnInit {
-  @ViewChild('tracks', { static: false }) table: MatTable<any>;
-  @ViewChild('list1', { static: false }) list1: CdkDropList;
-  @ViewChild('player', { static: false })
+  @ViewChild('tracks') table: MatTable<any>;
+  @ViewChild('list1') list1: CdkDropList;
+  @ViewChild('player')
 
   playerRef;
   player: any;

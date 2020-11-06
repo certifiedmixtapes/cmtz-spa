@@ -18,7 +18,7 @@ import { MatSidenav } from '@angular/material';
 export class AppComponent implements OnInit,AfterViewInit {
   @ViewChild('searchBox', { static: true }) searchInput: ElementRef;
   // (keyup)="search(searchBox.value)"
-  @ViewChild('drawer', { static: false }) drawer: MatSidenav;
+  @ViewChild('drawer') drawer: MatSidenav;
 
 
   hideResult:boolean;
