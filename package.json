@@ -29,7 +29,6 @@
     "@angular/router": "~8.2.14",
     "@material-ui/icons": "^4.9.1",
     "@nguniversal/express-engine": "^8.2.6",
-    "@nguniversal/module-map-ngfactory-loader": "0.0.0",
     "@progress/kendo-angular-buttons": "^5.4.2",
     "@progress/kendo-angular-common": "^1.2.2",
     "@progress/kendo-angular-dateinputs": "^4.3.0",
