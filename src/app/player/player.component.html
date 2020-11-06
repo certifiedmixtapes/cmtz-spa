@@ -154,7 +154,7 @@
                 position: relative;
               "
             >
-            <mat-table [dataSource]="dataSource" 
+            <!--mat-table [dataSource]="dataSource" 
                 class="mat-elevation-z8" cdkDropList  #list1="cdkDropList" style="background: black; color:white"
                 [cdkDropListData]="queueTracks" [cdkDropListConnectedTo]="[list2]" (cdkDropListDropped)="drop($event)" id="tracks" #tracks>
                 <ng-container  matColumnDef="Number">
@@ -162,26 +162,29 @@
                     <td style="color:white !important" mat-cell *matCellDef="let element"> {{element.order}} </td>
                   </ng-container>
 
-                  <!--ng-container matColumnDef="Cover">
+                  <ng-container matColumnDef="Cover">
                     <th mat-header-cell *matHeaderCellDef style="width:60px"> Cover </th>
                     <td style="margin-left:6px;color:white !important" mat-cell *matCellDef="let element">
                         <img width="30"  length="30" src="{{ element.coverImageName }}"/> 
                     </td>
-                  </ng-container-->
+                  </ng-container>
                 
                   <ng-container style="color:white !important" matColumnDef="Name">
                     <th mat-header-cell *matHeaderCellDef> Name </th>
                     <td  style="color:white !important" mat-cell *matCellDef="let element"> {{element.trackTitle}} </td>
                   </ng-container>
             <mat-row  class="queue-tracks" *matRowDef="let row; columns: displayedColumns;" cdkDrag></mat-row>          
-            </mat-table>
-            <!--div
+            </mat-table-->
+            <div
                 cdkDropList
                 [cdkDropListData]="todo"
                 class="example-list"
                 (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let item of queueTracks" cdkDrag>{{item.trackTitle}}</div>
-                </div-->
+                <div (click)="playQueue(indexOfelement)" class="row queue-box" *ngFor="let item of queueTracks;let indexOfelement=index;" cdkDrag>
+                    <img style="margin-left: 15px; margin-right: 15px;" width="30"  length="30" src="{{ item.coverImageName }}"/> 
+                    <div>{{item.trackTitle}}</div>
+                </div>
+                </div>
               <!--div
                 class="u-sortable-item"
                 style="

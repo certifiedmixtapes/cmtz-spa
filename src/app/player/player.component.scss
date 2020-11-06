@@ -31,7 +31,17 @@ button:focus, button:active:focus, button.active:focus {
   opacity: 1;
   transform: scale(1);
 }
-
+.queue-box {
+  padding: 10px 10px;
+  border-bottom: solid 1px #666;;
+  color: white;
+  box-sizing: border-box;
+  cursor: move;
+  font-size: 14px;
+}
+.queue-box:hover{
+  background-color: #666;
+}
 .player-queue-menu__header {
   padding: 5px 5px 15px;
 }
@@ -178,9 +188,7 @@ button:focus, button:active:focus, button.active:focus {
   color: #d8d8d8;
 }
 
-//.queue-tracks:hover{
-//  background-color: #666;
-//}
+
 
 #audio-player {
     width: 100%;

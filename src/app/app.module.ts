@@ -29,11 +29,19 @@ import { InfinitescrollComponent } from './infinitescroll/infinitescroll.compone
 import { NewMixtapesComponent } from './new-mixtapes/new-mixtapes.component';
 import { PopularMixtapesComponent } from './popular-mixtapes/popular-mixtapes.component';
 import { VideoDetailsComponent } from './video-details/video-details.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CommentboxComponent } from './commentbox/commentbox.component';
+import { CommentsComponent } from './comments/comments.component';
+import { ChildboxComponent } from './childbox/childbox.component';
+import { DatacontainerDirective } from './comments/comments.component';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {NgBottomNavigationModule} from 'ng-bottom-navigation';
+
+
 
 
 @NgModule({
@@ -41,6 +49,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     AppComponent,
     ArtistComponent,
     AlbumComponent,
+    CommentboxComponent,
+    CommentsComponent,
+    ChildboxComponent,
+    DatacontainerDirective,
     TrackComponent,
     PlayerComponent,
     TrackControlComponent,
@@ -63,6 +75,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     CdkTableModule,
     CdkTreeModule,
     DragDropModule,
+    NgBottomNavigationModule,
     MatTableModule,
     MatListModule,
     MatToolbarModule,
@@ -75,9 +88,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatButtonModule,
     MatIconModule,
     MatRippleModule,
+    FormsModule,
+    ReactiveFormsModule,
     CommonModule
   ],
-  providers: [],
+  providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy}],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

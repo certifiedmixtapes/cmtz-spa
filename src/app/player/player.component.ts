@@ -145,6 +145,11 @@ export class PlayerComponent implements OnInit {
     this.playerSer.playTrack(this.trackIndex.toString())
   }
 
+  playQueue(index) {
+    var current = Number(index);
+    this.playerSer.playTrack(current.toString());
+  }
+
   toggleQueue(){
     this.queueShowing = !this.queueShowing;
     if(this.queueShowing){

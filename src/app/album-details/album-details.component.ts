@@ -21,6 +21,9 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   tracks: Array<any> = [];
   displayedColumns: string[] = ['Number', 'Name'];
   isBrowser: boolean;
+  comments: string;
+  count: number;
+
 
   constructor(
     private ituneService: ItunesService,
@@ -35,6 +38,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.routeParams = params;
+      this.count = 0;
       /*his.ituneService.getTracks(params.colllection_id).subscribe(tracks => {
         this.tracks = tracks;
         this.selectedAlbum = new Album(this.tracks.shift());
@@ -62,6 +66,17 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
     console.log(track);
     var order = Number(track.order) -1;
     this.playerService.playTrack(order.toString());
+  }
+
+  receiveComment($event) {
+    this.comments = $event;
+    this.count = this.comments.length;
+    console.log(this.comments.length);
+  }
+
+  recieveCount($event) {
+    this.comments = $event;
+    this.count = this.comments.length;
   }
 
 }

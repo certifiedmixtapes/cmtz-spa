@@ -42,11 +42,36 @@
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<div *ngIf="isMobile" class="container">
-  <div class="body_container">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+  <bottom-nav-wrapper *ngIf="isMobile">
+      <application-content>
+        <div  class="container">
+          <div class="body_container">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </application-content>
+     
+      <!-- The bottom nav bar -->
+      <bottom-nav>
+     
+        <!-- Add a bottom-nav-item for every  icon in the bottom nav. -->
+        <!-- The name in the bottom-nav-icon (home) is the name of the material icon -->
+        <!-- Use the link input like a [routerLink] -->
+        <bottom-nav-item link="">
+          home
+        </bottom-nav-item>
+
+        <bottom-nav-item [link]="'/mixtapes/popular'" [exact]="true">
+          thumb_up
+        </bottom-nav-item>
+     
+        <!-- The label is optional and adds a ... label to the icon -->
+        <bottom-nav-item link="'/mixtapes/newest'" [exact]="true" label="watch">
+          watch_later
+        </bottom-nav-item>
+     
+      </bottom-nav>    
+  </bottom-nav-wrapper>
 <mat-toolbar role="footer" style="background:black;" class="mat-elevation-z3 music-control" [hidden]="!showing()" >
   <app-player></app-player>
 </mat-toolbar>
