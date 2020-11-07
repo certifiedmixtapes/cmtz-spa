@@ -19,6 +19,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   selectedAlbum: any;
   routeParams;
   tracks: Array<any> = [];
+  commentArray: Array<Object> = [];
   displayedColumns: string[] = ['Number', 'Name'];
   isBrowser: boolean;
   comments: string;
@@ -56,6 +57,25 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
           })
         }
       );
+
+      fetch(environment.apiUrl +'/api/mixtapes/comments/'+ id +'?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').then(
+        res => {
+          res.json().then( response =>{
+             var commentArr = response.responseObject;
+             for(let i = 0; i< commentArr.length; i++){
+              
+               this.commentArray.push({
+                commentId : commentArr[i].id,
+                currentDate : commentArr[i].createdOn,
+                commentTxt: commentArr[i].comment,
+                replyComment: []
+              });
+             }
+
+            this.comments = this.commentArray as any;
+          })
+        }
+      );
     });
   }
   ngOnDestroy() {}
@@ -71,6 +91,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   receiveComment($event) {
     this.comments = $event;
     this.count = this.comments.length;
+    console.log(this.comments);
     console.log(this.comments.length);
   }
 
