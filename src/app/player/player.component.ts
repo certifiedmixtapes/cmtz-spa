@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { PlayerService } from '../shared/player.service';
+import { UnmuteService } from '../shared/unmute.service';
 import WaveSurfer from 'wavesurfer.js';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { environment } from '../../environments/environment';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@angular/cdk/drag-drop';
 import clonedeep from 'lodash.clonedeep';
+
 
 
 
@@ -53,7 +55,7 @@ export class PlayerComponent implements OnInit {
   }
 
 
-  constructor(private playerSer: PlayerService, private cdr: ChangeDetectorRef) {
+  constructor(private playerSer: PlayerService, private unmuteService: UnmuteService, private cdr: ChangeDetectorRef) {
     playerSer.playTrack$.subscribe(order => {
       this.trackIndex = Number(order);
       this.currentTrack = this.playerSer.getQueue()[this.trackIndex];
@@ -206,6 +208,8 @@ export class PlayerComponent implements OnInit {
       });
 
       this.wave.on('ready', () => {
+        //waveSurfer.backend.getAudioContext()
+        this.unmuteService.unmute(this.wave.backend.getAudioContext())
         this.wave.play();
         this.isPlaying = true;
       });
@@ -216,4 +220,7 @@ export class PlayerComponent implements OnInit {
       });
     });
   }
+
+  
+
 }

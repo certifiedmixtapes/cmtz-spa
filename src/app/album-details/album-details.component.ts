@@ -19,6 +19,8 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   selectedAlbum: any;
   routeParams;
   tracks: Array<any> = [];
+  suggestedArray: Array<any> = [];
+  suggestedVideos: Array<any> = [];
   commentArray: Array<Object> = [];
   displayedColumns: string[] = ['Number', 'Name'];
   isBrowser: boolean;
@@ -54,6 +56,23 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
             this.selectedAlbum = response.responseObject[0].album;
             this.selectedAlbum.trackCount = response.responseObject.length;
             this.tracks = response.responseObject;
+
+            fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=1&searchString=' + this.selectedAlbum.artists + '&currentPage=1&itemsPerPage=5').then(
+              res => {
+                res.json().then( response =>{
+                  this.suggestedArray = response.responseObject[0].items;
+                })
+              }
+            );
+
+            fetch(environment.apiUrl + '/api/videos/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=1&searchString=' + this.selectedAlbum.artists + '&currentPage=1&itemsPerPage=5').then(
+              res => {
+                res.json().then( response =>{
+                  this.suggestedVideos = response.responseObject[0].items;
+                })
+              }
+            );
+
           })
         }
       );
@@ -76,9 +95,33 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
           })
         }
       );
+
     });
   }
   ngOnDestroy() {}
+
+  getGenre(){
+   var genreCode = this.selectedAlbum.genreType
+   switch(genreCode) {
+    case 1:
+      return "Rap";
+    case 2:
+      return "R&B";
+    case 3:
+      return "EDM";  
+    case 4:
+      return "Christian Hip Hop";
+    case 5:
+      return "Hip Hop Blends";
+    case 6:
+      return "Soul";
+    case 7:
+      return "Instrumentals";
+    case 8:
+      return "Chopped and Screwed";  
+    default:
+    }
+  }
 
   playTrack(track) {
     this.playerService.queueTracks(this.tracks);

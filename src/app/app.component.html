@@ -1,14 +1,15 @@
 <mat-toolbar style="padding:0px;" role="heading" class="mat-elevation-z3">
-  <div style="padding-right: 5px;display: flex;align-items: center; justify-content: center;height: 100%;width: 70px;float: left;background-color: #3b97f9;">    
+  <div *ngIf="!isMobile" style="padding-right: 5px;display: flex;align-items: center; justify-content: center;height: 100%;width: 70px;float: left;background-color: #3b97f9;">    
     <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" style="color: white;">
-    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-  </button>  
-</div>
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>  
+  </div>
   <div class="col-md-3 col-xs-2" style="display: flex;align-items: center; justify-content: center;" routerLink="/">
     <span><!--i class="fa fa-compact-disc"></i-->
     <img src="assets/cmtz.ico" width="42px" height="42px" />
-      <span style="font-family: Lobster;" class="header-text">CertifiedMixtapes</span><span style="font-family: Lobster;" class="header-text"></span></span></div>
-  <div class="col-md-6 col-xs-10">
+      <span style="font-family: Lobster;" class="header-text">CertifiedMixtapes</span><span style="font-family: Lobster;" class="header-text"></span></span>
+  </div>
+  <div class="col-md-6 col-xs-6">
     <div class="search-container">
       <i style="color: #3b97f9;" class="fa fa-search search-icon"></i>
       <input type="text" (keyup.enter)="searchEnter(searchBox.value)"
@@ -50,7 +51,7 @@
           </div>
         </div>
       </application-content>
-      <mat-toolbar role="footer" style="background:black;" class="mat-elevation-z3 music-control" [hidden]="!showing()" >
+      <mat-toolbar role="footer" style="background:black;margin-bottom: 70px;" class="mat-elevation-z3 music-control" [hidden]="!showing()" >
         <app-player></app-player>
       </mat-toolbar>
 
