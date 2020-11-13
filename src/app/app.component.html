@@ -4,12 +4,12 @@
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>  
   </div>
-  <div class="col-md-3 col-xs-2" style="display: flex;align-items: center; justify-content: center;" routerLink="/">
+  <div class="col-md-3 col-xs-6" style="display: flex;align-items: center; justify-content: center;" routerLink="/">
     <span><!--i class="fa fa-compact-disc"></i-->
     <img src="assets/cmtz.ico" width="42px" height="42px" />
       <span style="font-family: Lobster;" class="header-text">CertifiedMixtapes</span><span style="font-family: Lobster;" class="header-text"></span></span>
   </div>
-  <div class="col-md-6 col-xs-6">
+  <div *ngIf="!isMobile" class="col-md-6 col-xs-6">
     <div class="search-container">
       <i style="color: #3b97f9;" class="fa fa-search search-icon"></i>
       <input type="text" (keyup.enter)="searchEnter(searchBox.value)"
@@ -33,7 +33,15 @@
         <i style="padding-right: 7px; color: #3b97f9;" class="fas fa-fire"></i>Popular Mixtapes</a>
       <a mat-list-item routerLink='/mixtapes/newest'>
         <i style="padding-right: 7px; color: #3b97f9;" class="fas fa-bolt"></i>Recently Added</a>
+      <a style="padding-left: 16px;" href='https://apps.apple.com/us/app/certified-mixtapes-music/id535338086'>
+        <img src="assets/ios-badge.png" width="130px" height="40px" />
+      </a>
+      <br>
+      <a style="padding-left: 16px;" href='https://play.google.com/store/apps/details?id=com.techmob.mixtapes&hl=en_US&gl=US'>
+        <img style="margin-top: 10px;" src="assets/google-play-badge.png" width="130px" height="40px" />
+      </a>
     </mat-nav-list>
+
   </mat-sidenav>
   <mat-sidenav-content class="body-bg">
     <div class="container">
@@ -45,8 +53,20 @@
 </mat-sidenav-container>
   <bottom-nav-wrapper bottomNavHeight="75px"  *ngIf="isMobile">
       <application-content>
-        <div  class="container">
+        <div  class="container"> 
           <div class="body_container">
+            <div  class="col-xs-10">
+              <div class="search-container">
+                <i style="color: #3b97f9;" class="fa fa-search search-icon"></i>
+                <input type="text" (keyup.enter)="searchEnter(searchBox.value)"
+                placeholder="Search Artist" class="search-input" #searchBox>
+                <mat-list class="mat-elevation-z3 search-result" *ngIf="searchResults.length>0 && !hideResult">
+                  <mat-list-item class="search-result-item" role="listitem" *ngFor="let artist of searchResults">
+                    <a (click)="onResultClick()" [routerLink]="['search', artist.artists]">{{artist.artists}}</a>
+                  </mat-list-item>
+                </mat-list>
+              </div>
+            </div> 
             <router-outlet></router-outlet>
           </div>
         </div>
