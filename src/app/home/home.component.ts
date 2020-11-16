@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { PlayerService } from '../shared/player.service';
 import { VideoService } from '../shared/video.service';
 

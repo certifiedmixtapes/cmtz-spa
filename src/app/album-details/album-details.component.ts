@@ -5,7 +5,7 @@ import { Album } from '../album/album.model';
 import { PlayerService } from '../shared/player.service';
 import { isPlatformBrowser} from '@angular/common';
 import { PLATFORM_ID, Inject } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 
 
 

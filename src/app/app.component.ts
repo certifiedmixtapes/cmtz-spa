@@ -1,9 +1,9 @@
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { ItunesService } from './shared/itunes.service';
-import { fromEvent,interval, Subscription } from 'rxjs';
+import { fromEvent,interval, Subject, Subscription } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { PlayerService } from './shared/player.service';
-import { environment } from 'src/environments/environment'
+import { environment } from '../environments/environment'
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -19,7 +19,8 @@ export class AppComponent implements OnInit,AfterViewInit {
   @ViewChild('searchBox', { static: true }) searchInput: ElementRef;
   // (keyup)="search(searchBox.value)"
   @ViewChild('drawer') drawer: MatSidenav;
-
+  searchTextChanged = new Subject<string>();
+  searchValue: string;
 
   hideResult:boolean;
   isMobile: boolean = false;
@@ -30,6 +31,13 @@ export class AppComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit(){
+    this.buttonStream$ = this.searchTextChanged
+        .pipe(debounceTime(1000))
+        //.distinctUntilChanged()
+        //.mergeMap(search => )
+        .subscribe(q => {
+          this.searchByArtist(q)
+         });
   }
 
   checkBrowser(){
@@ -37,15 +45,20 @@ export class AppComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit(){
-     let buttonStream$=fromEvent(this.searchInput.nativeElement, 'keyup')
+     /*let buttonStream$=fromEvent(this.searchInput.nativeElement, 'keyup')
     .pipe(debounceTime(1000))
     .subscribe(()=>{
       console.log("search: " + this.searchInput.nativeElement.value);
       this.searchByArtist(this.searchInput.nativeElement.value);
     });
-    this.buttonStream$ = buttonStream$;
-
+    this.buttonStream$ = buttonStream$;*/
   }
+
+  keyup(event) {
+    console.log(event);
+    //console.log(this.searchValue);
+    this.searchTextChanged.next(event);
+}
 
   searchEnter(search){
     this.onResultClick();
@@ -58,7 +71,7 @@ export class AppComponent implements OnInit,AfterViewInit {
 
   onResultClick(){
     this.hideResult=true;
-    this.searchInput.nativeElement.value='';
+    //this.searchInput.nativeElement.value='';
   }
 
   showing(){

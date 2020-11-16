@@ -40,6 +40,7 @@ import { ChildboxComponent } from './childbox/childbox.component';
 import { DatacontainerDirective } from './comments/comments.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgBottomNavigationModule} from 'ng-bottom-navigation';
+import { SinglesComponent } from './singles/singles.component';
 
 
 
@@ -64,6 +65,7 @@ import {NgBottomNavigationModule} from 'ng-bottom-navigation';
     NewMixtapesComponent,
     PopularMixtapesComponent,
     VideoDetailsComponent,
+    SinglesComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

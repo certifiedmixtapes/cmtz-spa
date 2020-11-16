@@ -9,6 +9,7 @@ import { AlbumDetailsComponent } from './album-details/album-details.component';
 import { NewMixtapesComponent } from './new-mixtapes/new-mixtapes.component';
 import { PopularMixtapesComponent } from './popular-mixtapes/popular-mixtapes.component';
 import { VideoDetailsComponent } from './video-details/video-details.component';
+import { SinglesComponent } from './singles/singles.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'music', component: HomeComponent },
   { path: 'mixtapes/newest', component: NewMixtapesComponent },
   { path: 'mixtapes/popular', component: PopularMixtapesComponent },
+  { path: 'singles', component: SinglesComponent },
   { path: 'search/:name', component: SearchComponent },
   { path: 'album/:id', component: AlbumDetailsComponent },
   { path: 'video/:id', component: VideoDetailsComponent },

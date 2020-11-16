@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { PlayerService } from '../shared/player.service';
-import {environment} from 'src/environments/environment';
+import {environment} from '../../environments/environment';
 
 
 @Component({

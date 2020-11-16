@@ -22,7 +22,7 @@
 <h4>Mixtapes</h4>
 <mat-divider></mat-divider>
 <div class="row">
-    <div class="col-lg-2 col-md-4 col-sm-6" *ngFor="let album of mixtapeArray">
+    <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6" *ngFor="let album of mixtapeArray">
         <mat-card class="album-card" (mouseover)="toggleHover(album.id)" (mouseleave)="removeHover()"> 
             <mat-card-content (click)="playTracks(album)"> 
                 <div class="pos-rlt">
@@ -33,8 +33,8 @@
                 </div>
             </mat-card-content>
             <mat-card-header class="album-header">
-                <mat-card-title class="album-title" (click)="onGetTracks(album)">{{album.title}}</mat-card-title>
-                <mat-card-subtitle (click)="onGetTracks(album)">{{album.artists}}</mat-card-subtitle>
+                <mat-card-title class="album-title" routerLink="/album/{{album.id}}">{{album.title}}</mat-card-title>
+                <mat-card-subtitle routerLink="/search/{{album.artists}}">{{album.artists}}</mat-card-subtitle>
             </mat-card-header>
         </mat-card>
     </div>
@@ -45,7 +45,7 @@
 <h4>Videos</h4>
 <mat-divider></mat-divider>
 <div class="row">
-    <div class="col-lg-2 col-md-4 col-sm-6" *ngFor="let album of videoArray">
+    <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6" *ngFor="let album of videoArray">
         <mat-card class="album-card" matRipple routerLink="/video/{{album.id}}"> 
             <mat-card-content>
             <img [src]="album.videoPoster"  width="100%" class="responsive-image">

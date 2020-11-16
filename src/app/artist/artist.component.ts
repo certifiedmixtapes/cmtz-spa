@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ItunesService } from '../shared/itunes.service';
 import { filter, map } from 'rxjs/operators';
-import {environment} from 'src/environments/environment';
+import {environment} from '../../environments/environment'
 
 @Component({
   selector: 'app-artist',

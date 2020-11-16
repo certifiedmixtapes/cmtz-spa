@@ -12,7 +12,7 @@
   <div *ngIf="!isMobile" class="col-md-6 col-xs-6">
     <div class="search-container">
       <i style="color: #3b97f9;" class="fa fa-search search-icon"></i>
-      <input type="text" (keyup.enter)="searchEnter(searchBox.value)"
+      <input type="text" (keyup)="keyup($event.target.value)" (keyup.enter)="searchEnter(searchBox.value)"
       placeholder="Search Artist" class="search-input" #searchBox>
       <mat-list class="mat-elevation-z3 search-result" *ngIf="searchResults.length>0 && !hideResult">
         <mat-list-item class="search-result-item" role="listitem" *ngFor="let artist of searchResults">
@@ -27,7 +27,7 @@
     <mat-nav-list>
       <a mat-list-item routerLink='/'>
         <i style="padding-right: 7px; color: #3b97f9;" class="far fa-compass"></i>Discover</a>
-      <a mat-list-item routerLink='/second'>
+      <a mat-list-item routerLink='/singles'>
         <i style="padding-right: 7px; color: #3b97f9;" class="fas fa-chart-line"></i>Trending</a>
       <a mat-list-item routerLink='/mixtapes/popular'>
         <i style="padding-right: 7px; color: #3b97f9;" class="fas fa-fire"></i>Popular Mixtapes</a>
@@ -85,7 +85,7 @@
           home
         </bottom-nav-item>
         
-        <bottom-nav-item [link]="'/mixtapes/popular'" [exact]="true">
+        <bottom-nav-item [link]="'/singles'" [exact]="true">
           show_chart
         </bottom-nav-item>
 

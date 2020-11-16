@@ -203,6 +203,7 @@ export class PlayerComponent implements OnInit {
         minPxPerSec: 25,
         maxCanvasWidth: 2000,
         height: 100,
+        backend: 'MediaElement',
         fillParent: true,
         barGap: 2.5
       });
