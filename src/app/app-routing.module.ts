@@ -27,7 +27,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forRoot(routes, { useHash: false })],
+  imports: [CommonModule, RouterModule.forRoot(routes, { useHash: false, initialNavigation: 'enabled' })],
   exports: [RouterModule],
   declarations: [],
 })

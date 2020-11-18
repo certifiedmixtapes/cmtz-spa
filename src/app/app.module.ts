@@ -41,6 +41,8 @@ import { DatacontainerDirective } from './comments/comments.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgBottomNavigationModule} from 'ng-bottom-navigation';
 import { SinglesComponent } from './singles/singles.component';
+import {MatMenuModule} from '@angular/material/menu';
+
 
 
 
@@ -78,6 +80,7 @@ import { SinglesComponent } from './singles/singles.component';
     CdkTreeModule,
     DragDropModule,
     NgBottomNavigationModule,
+    MatMenuModule,
     MatTableModule,
     MatListModule,
     MatToolbarModule,
@@ -91,6 +94,7 @@ import { SinglesComponent } from './singles/singles.component';
     MatIconModule,
     MatRippleModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     CommonModule
   ],

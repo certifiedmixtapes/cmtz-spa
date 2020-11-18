@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { PlayerService } from '../shared/player.service';
 import { VideoService } from '../shared/video.service';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -24,52 +25,52 @@ export class HomeComponent implements OnInit {
   search(value: string) {
     this.searchKey = value;
   }
-  constructor(private router: Router, private playerService: PlayerService, private videoService: VideoService) {}
+  constructor(private router: Router, private http: HttpClient, private playerService: PlayerService, private videoService: VideoService) {}
 
   ngOnInit() {
 
     //Featured
-    fetch(environment.apiUrl + '/api/mixtapes/featured?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').then(
-      res => {
-        res.json().then( response =>{
+    this.http.get<any>(environment.apiUrl + '/api/mixtapes/featured?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').subscribe(
+      response => {
+        //res.json().then( response =>{
           this.featuredArray = response.responseObject;
-        })
+        //})
       }
     );
 
     // New Mixtapes
-      fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').then(
-      res => {
-        res.json().then( response =>{
+    this.http.get<any>(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').subscribe(
+      response => {
+       // res.json().then( response =>{
           this.mixtapeArray = response.responseObject[0].items;
-        })
+       // })
       }
     );
 
     // New Videos
-    fetch(environment.apiUrl + '/api/videos/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').then(
-      res => {
-        res.json().then( response =>{
+    this.http.get<any>(environment.apiUrl + '/api/videos/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').subscribe(
+      response => {
+        //res.json().then( response =>{
           this.videoArray = response.responseObject[0].items;
-        })
+        //})
       }
     );
 
     // Trending Single
-    fetch( environment.apiUrl + '/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&trackSort=4&range=1&singleType=1&itemsPerPage=20&currentPage=1').then(
-          res => {
-            res.json().then( response =>{
+    this.http.get<any>(environment.apiUrl + '/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&trackSort=4&range=1&singleType=1&itemsPerPage=20&currentPage=1').subscribe(
+      response => {
+            //res.json().then( response =>{
               this.singleArray = response.responseObject[0].items;    
-            })
+            //})
           }
      );
 
      // Radio Genre
-    fetch( environment.apiUrl + '/api/radio/list?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').then(
-      res => {
-        res.json().then( response =>{
+     this.http.get<any>(environment.apiUrl + '/api/radio/list?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').subscribe(
+      response => {
+        //res.json().then( response =>{
           this.radioArray = response.responseObject;
-        })
+        //})
       }
  );
   }

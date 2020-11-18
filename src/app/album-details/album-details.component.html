@@ -37,18 +37,27 @@
       </div>
     </div>
     <div class="row">
-      <a mat-list-item routerLink='/'>
-        <i style="margin-left: 25px; margin-top: 15px; font-size: 30px;" class="fas fa-play"></i>
+      <a mat-list-item >
+        <i (click)="playTrack(tracks[0])" style="margin-left: 25px; margin-top: 15px; font-size: 30px;" class="fas fa-play"></i>
       </a>
       <a mat-list-item routerLink='/'>
         <i style="margin-left: 30px; margin-top: 15px; font-size: 30px;" class="far fa-heart"></i>
       </a>
-      <a mat-list-item href="/">
+      <a mat-list-item href="http://certifiedmixtapez.com/Main/DownloadAlbum?albumId={{selectedAlbum?.refId}}">
         <i style="margin-left: 30px; margin-top: 15px; font-size: 30px;" class="fas fa-cloud-download-alt"></i>
       </a>
-      <a mat-list-item href="/">
-        <i style="margin-left: 30px; margin-top: 15px; font-size: 30px;" class="fas fa-dollar-sign"></i>
+      <a mat-list-item [matMenuTriggerFor]="donateMenu" >
+        <i style="margin-left: 30px; margin-top: 15px; font-size: 30px;" class="fas fa-money-bill-alt"></i>
       </a>
+      <!--button style="margin-left: 30px;" [disableRipple]="true" [matMenuTriggerFor]="donateMenu" mat-icon-button>
+        <mat-icon style="font-size: 30px;" mat-list-icon>local_atm</mat-icon>
+      </button-->
+
+      <mat-menu #donateMenu="matMenu">
+        <a href="https://www.clkmg.com/rlshaw/cmtz-cash-app" mat-menu-item>Cash App</a>
+        <a href="https://www.clkmg.com/rlshaw/cmtz-paypal" mat-menu-item>PayPal</a>
+      </mat-menu>
+
     </div>
 
   </div>
