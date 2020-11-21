@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlayerService } from '../shared/player.service';
 import { environment } from '../../environments/environment';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -12,22 +15,42 @@ export class SearchComponent implements OnInit {
   albumArray: Array<any> = [];
   artistName: string;
   public hoverButton:any;
+  isMobile: boolean = false;
+  searchTextChanged = new Subject<string>();
+  buttonStream$: Subscription
+
 
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private deviceService: DeviceDetectorService
   ) { }
 
   ngOnInit() {
+    this.checkBrowser();
     this.route.params.subscribe(param => {
       this.artistName = param.name;
-      this.getAlbum(param.name);
+      if(!this.isMobile){
+        this.getAlbum(param.name);
+      }
+      else {
+        this.buttonStream$ = this.searchTextChanged
+        .pipe(debounceTime(1000))
+        .subscribe(q => {
+          this.getAlbum(q)
+         });
+      }
     });
   }
 
+  checkBrowser(){
+    this.isMobile = this.deviceService.isMobile();
+  }
+
   getAlbum(searchTerm){
+    this.artistName = searchTerm;
     console.log("Term: " + searchTerm);
     fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=1&searchString=' + searchTerm + '&currentPage=1&itemsPerPage=12').then(
       res => {
@@ -43,6 +66,10 @@ export class SearchComponent implements OnInit {
       "album",
       album.id,
     ]);
+  }
+
+  keyup(event) {
+    this.searchTextChanged.next(event);
   }
 
   toggleHover(id) {

@@ -85,7 +85,7 @@
     </h4>
     <br>
     <div class="row" *ngFor="let item of suggestedArray;let indexOfelement=index;">
-      <a >
+      <a routerLink="/album/{{item.id}}">
         <img class="thumb-md" style="margin-left: 15px; margin-right: 15px; margin-bottom: 10px;" src="{{ item.coverImageName }}"/> 
      </a>
       <div class="truncate">{{item.title}}</div>
@@ -94,7 +94,7 @@
     <h4 *ngIf="suggestedVideos.length > 0">Videos</h4>
     <br>
     <div class="row" *ngFor="let item of suggestedVideos;let indexOfelement=index;">
-      <a >
+      <a routerLink="/video/{{item.id}}">
         <img class="thumb-md" style="margin-left: 15px; margin-right: 15px; margin-bottom: 10px;" src="{{ item.videoPoster }}"/> 
       </a>
       <div class="truncate">{{item.title}}</div>

@@ -1,3 +1,10 @@
+<div  *ngIf="isMobile" >
+  <div class="search-container">
+   <i style="color: #3b97f9;" class="fa fa-search search-icon"></i>
+    <input type="text" (keyup)="keyup($event.target.value)" (keyup.enter)="searchEnter(searchBox.value)"
+                placeholder="Search Artist" class="search-input" #searchBox>
+  </div>
+</div>
 <h4>{{artistName}} - Search</h4>
 <mat-divider></mat-divider>
 <div class="row">
