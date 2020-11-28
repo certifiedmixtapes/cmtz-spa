@@ -7,6 +7,9 @@ import { isPlatformBrowser} from '@angular/common';
 import { PLATFORM_ID, Inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { DeviceDetectorService } from 'ngx-device-detector';
+const branchio = require('branchio-sdk');
+
 
 
 
@@ -27,6 +30,9 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   isBrowser: boolean;
   comments: string;
   count: number;
+  mobileUrl: string;
+  isMobile: boolean = false;
+
 
 
   constructor(
@@ -34,6 +40,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private playerService: PlayerService,
     private http: HttpClient,
+    private deviceService: DeviceDetectorService,
     @Inject(PLATFORM_ID) platformId: string
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -52,6 +59,8 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
         var id = params.id;
         this.http.get<any>(environment.apiUrl +'/api/tracks?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&albumId='+ id).subscribe(
           response => {
+            this.checkBrowser()
+
           //res.json().then( response =>{
             //this.videoArray = response.responseObject[0].items;
             console.log(response.responseObject[0].album);
@@ -74,6 +83,10 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
                 //})
               }
             );
+
+            if(this.isMobile){
+              this.buildMobileLink();
+            }
 
           //})
         }
@@ -102,6 +115,10 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {}
 
+  checkBrowser(){
+    this.isMobile = this.deviceService.isMobile();
+  }
+
   getGenre(){
    var genreCode = this.selectedAlbum.genreType
    switch(genreCode) {
@@ -123,6 +140,32 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
       return "Chopped and Screwed";  
     default:
     }
+  }
+
+   async buildMobileLink() {
+
+    const client = branchio({ 
+      key: "key_live_ojnZGvIM6lxmU8Gg19agRicdDFoYV7j8",
+      secret: "secret_live_VWD3WOgEUC0JDyeCC25zNxVfndXJ3Jce"
+    });
+
+    const { url }  = await client.link({ 
+      stage: 'new user',
+      channel: 'mobile_web',
+      feature: 'deepview',
+      campaign: 'Mobile Site',
+      data: {
+        '$og_image_url': this.selectedAlbum.coverImageName,
+        'mixtapeId' : this.selectedAlbum.id,
+        '$og_title': this.selectedAlbum.title,
+        '$always_deeplink':false,
+      }
+    });
+
+    console.log("url: " + url);
+    this.mobileUrl = url;
+
+    return url;
   }
 
   playTrack(track) {

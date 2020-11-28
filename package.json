@@ -49,6 +49,7 @@
     "@types/youtube": "0.0.39",
     "bootstrap": "^4.5.0",
     "bootstrap-sass": "^3.3.7",
+    "branchio-sdk": "^1.1.2",
     "core-js": "^2.5.4",
     "express": "^4.15.2",
     "jquery": "^1.9.1",

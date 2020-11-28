@@ -1,6 +1,6 @@
 <infinite-scroll (scrolled)="onScroll()">
   <div class="row">
-    <div class="col-lg-2 col-md-4 col-sm-6" *ngFor="let album of mixtapeArray">
+    <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6" *ngFor="let album of mixtapeArray">
         <mat-card class="album-card" (mouseover)="toggleHover(album.id)" (mouseleave)="removeHover()"> 
             <mat-card-content (click)="playTracks(album)"> 
                 <div class="pos-rlt">

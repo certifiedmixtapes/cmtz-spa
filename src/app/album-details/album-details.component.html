@@ -59,7 +59,9 @@
       </mat-menu>
 
     </div>
-
+    <div *ngIf="mobileUrl" class="row">
+      <a href="{{mobileUrl}}" style="margin-left: 25px; margin-top: 15px;" class="button button--pill">Open in App</a>
+    </div>
   </div>
 </div>
 <div class="row  mb-5 mt-4">
