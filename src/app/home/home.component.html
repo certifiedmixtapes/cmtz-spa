@@ -9,9 +9,9 @@
                     <div class="item-overlay play-overlay center">
                         <mat-icon *ngIf="hoverButton === album.id" mat-list-icon>play_arrow_rounded</mat-icon>
                     </div>
-                    <!--img src="{{album.coverImageName}}"  width="100%" class="responsive-image"-->
-                    <img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
-                        src="{{album.coverImageName}}?webp.lossless=true" alt="{{album.title}}">
+                    <img src="{{album.coverImageName}}"  width="100%" class="responsive-image">
+                    <!--img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
+                        src="{{album.coverImageName}}?webp.lossless=true" alt="{{album.title}}"-->
                 </div>
             </mat-card-content>
                 <mat-card-header class="">
@@ -31,9 +31,9 @@
                     <div class="item-overlay play-overlay center">
                         <mat-icon *ngIf="hoverButton === album.id" mat-list-icon>play_arrow_rounded</mat-icon>
                     </div>
-                    <!--img [src]="album.coverImageName"  width="100%" class="responsive-image"-->
-                    <img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
-                    src="{{album.coverImageName}}?webp.lossless=true" alt="{{album.title}}">
+                    <img [src]="album.coverImageName"  width="100%" class="responsive-image">
+                    <!--img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
+                    src="{{album.coverImageName}}?webp.lossless=true" alt="{{album.title}}"-->
 
                 </div>
             </mat-card-content>
@@ -53,9 +53,9 @@
     <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6" *ngFor="let album of videoArray">
         <mat-card class="album-card" matRipple routerLink="/video/{{album.id}}"> 
             <mat-card-content>
-            <!--img [src]="album.videoPoster"  width="100%" class="responsive-image"-->
-            <img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
-            src="{{album.videoPoster}}?webp.lossless=true" alt="{{album.title}}">
+            <img [src]="album.videoPoster"  width="100%" class="responsive-image">
+            <!--img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
+            src="{{album.videoPoster}}?webp.lossless=true" alt="{{album.title}}"-->
 
             </mat-card-content>
             <mat-card-header class="album-header">

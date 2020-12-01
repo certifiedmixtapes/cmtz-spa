@@ -32,26 +32,7 @@ export class HomeComponent implements OnInit {
     //Featured
     this.http.get<any>(environment.apiUrl + '/api/mixtapes/featured?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').subscribe(
       response => {
-        //res.json().then( response =>{
           this.featuredArray = response.responseObject;
-          for(let f = 0; f < this.featuredArray.length; f++){
-            var coverImage = this.featuredArray[f].coverImageName;
-             var baseImage = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","https://do-images-klqk8.ondigitalocean.app/do");
-             this.featuredArray[f].coverImageName = baseImage;
-             this.featuredArray[f].imageSrcSet = [
-              baseImage + "?width=200&webp.lossless=true 200w",
-              baseImage + "?width=340&webp.lossless=true  340w",
-              baseImage + "?width=500&webp.lossless=true 500w",
-            ];
-            this.featuredArray[f].imageSize = [
-              "(max-width: 200px) 160px",
-              "(max-width: 340px) 300px",
-              "500px"
-            ]
-          }
-
-
-        //})
       }
     );
 
@@ -60,10 +41,10 @@ export class HomeComponent implements OnInit {
       response => {
        // res.json().then( response =>{
           this.mixtapeArray = response.responseObject[0].items;
-          for(let f = 0; f < this.mixtapeArray.length; f++){
+          /*for(let f = 0; f < this.mixtapeArray.length; f++){
             var coverImage = this.mixtapeArray[f].coverImageName;
              var baseImage = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","https://do-images-klqk8.ondigitalocean.app/do");
-             this.mixtapeArray[f].coverImageName = baseImage;
+             this.mixtapeArray[f].coverImageName = baseImage + "?webp.lossless=true";;
              this.mixtapeArray[f].imageSrcSet = [
               baseImage + "?width=200&webp.lossless=true 200w",
               baseImage + "?width=340&webp.lossless=true  340w",
@@ -74,7 +55,7 @@ export class HomeComponent implements OnInit {
               "(max-width: 340px) 300px",
               "500px"
             ]
-          }
+          }*/
        // })
       }
     );
@@ -82,48 +63,14 @@ export class HomeComponent implements OnInit {
     // New Videos
     this.http.get<any>(environment.apiUrl + '/api/videos/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').subscribe(
       response => {
-        //res.json().then( response =>{
           this.videoArray = response.responseObject[0].items;
-          for(let f = 0; f < this.videoArray.length; f++){
-            var coverImage = this.videoArray[f].videoPoster;
-             var baseImage = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","https://do-images-klqk8.ondigitalocean.app/do");
-             this.videoArray[f].videoPoster = baseImage;
-             this.videoArray[f].imageSrcSet = [
-              baseImage + "?width=200&webp.lossless=true 200w",
-              baseImage + "?width=340&webp.lossless=true  340w",
-              baseImage + "?width=500&webp.lossless=true 500w",
-            ];
-            this.videoArray[f].imageSize = [
-              "(max-width: 200px) 160px",
-              "(max-width: 340px) 300px",
-              "500px"
-            ]
-          }
-        //})
       }
     );
 
     // Trending Single
     this.http.get<any>(environment.apiUrl + '/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&trackSort=4&range=1&singleType=1&itemsPerPage=20&currentPage=1').subscribe(
       response => {
-            //res.json().then( response =>{
               this.singleArray = response.responseObject[0].items;
-              for(let f = 0; f < this.singleArray.length; f++){
-                var coverImage = this.singleArray[f].album.coverImageName;
-                 var baseImage = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","https://do-images-klqk8.ondigitalocean.app/do");
-                 this.singleArray[f].album.coverImageName = baseImage;
-                 this.singleArray[f].imageSrcSet = [
-                  baseImage + "?width=200&webp.lossless=true 200w",
-                  baseImage + "?width=340&webp.lossless=true  340w",
-                  baseImage + "?width=500&webp.lossless=true 500w",
-                ];
-                this.singleArray[f].imageSize = [
-                  "(max-width: 200px) 160px",
-                  "(max-width: 340px) 300px",
-                  "500px"
-                ]
-              }    
-            //})
           }
      );
 
@@ -132,6 +79,12 @@ export class HomeComponent implements OnInit {
       response => {
         //res.json().then( response =>{
           this.radioArray = response.responseObject;
+          for(let f = 0; f < this.radioArray.length; f++){
+            var coverImage = this.radioArray[f].coverImageName;
+             var baseImage = coverImage.replace("http://www.certifiedmixtapez.com/images/Radio","assets");
+             baseImage = baseImage.replace("png","jpg");
+             this.radioArray[f].coverImageName = baseImage 
+          }
         //})
       }
  );

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: "https://www.certifiedmixtapez.com"
+  apiUrl: "https://cmtz-api-router.certifiedmixtapes.workers.dev"
 };
