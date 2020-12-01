@@ -34,6 +34,14 @@ export class HomeComponent implements OnInit {
       response => {
         //res.json().then( response =>{
           this.featuredArray = response.responseObject;
+          for(let f = 0; f < this.featuredArray.length; f++){
+            var coverImage = this.featuredArray[f].coverImageName;
+            this.featuredArray[f].coverImageName = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","https://do-images-klqk8.ondigitalocean.app/do");
+            console.log("this.featuredArray")
+            console.log(this.featuredArray)
+          }
+
+
         //})
       }
     );
