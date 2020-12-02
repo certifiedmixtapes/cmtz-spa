@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { PlayerService } from '../shared/player.service';
 import { VideoService } from '../shared/video.service';
 import { HttpClient } from '@angular/common/http';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 
 
@@ -25,7 +26,14 @@ export class HomeComponent implements OnInit {
   search(value: string) {
     this.searchKey = value;
   }
-  constructor(private router: Router, private http: HttpClient, private playerService: PlayerService, private videoService: VideoService) {}
+  constructor(private router: Router,
+     private http: HttpClient,
+      private playerService: PlayerService,
+       private videoService: VideoService,
+           private deviceService: DeviceDetectorService
+    ) {
+
+    }
 
   ngOnInit() {
 
@@ -46,7 +54,8 @@ export class HomeComponent implements OnInit {
              var baseImage = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","https://do-images-klqk8.ondigitalocean.app/do");
              this.mixtapeArray[f].coverImageName = baseImage + "?webp.lossless=true";;
              this.mixtapeArray[f].imageSrcSet = [
-              baseImage + "?width=200&webp.lossless=true 200w",
+              baseImage + "?width=200&webp.lossless=true 150w",
+              baseImage + "?width=200&webp.lossless=true 255w",
               baseImage + "?width=340&webp.lossless=true  340w",
               baseImage + "?width=500&webp.lossless=true 500w",
             ];
@@ -81,9 +90,17 @@ export class HomeComponent implements OnInit {
           this.radioArray = response.responseObject;
           for(let f = 0; f < this.radioArray.length; f++){
             var coverImage = this.radioArray[f].coverImageName;
-             var baseImage = coverImage.replace("http://www.certifiedmixtapez.com/images/Radio","assets");
+             var baseImage = coverImage.replace("http://www.certifiedmixtapez.com/images/Radio","radio");
              baseImage = baseImage.replace("png","jpg");
-             this.radioArray[f].coverImageName = baseImage 
+             var baseImage150 = baseImage.replace(".jpg","-150.jpg");
+             var baseImage255 = baseImage.replace(".jpg","-255.jpg");
+
+             if(this.deviceService.isMobile()){
+              this.radioArray[f].coverImageName = baseImage255
+             }
+             else {
+              this.radioArray[f].coverImageName = baseImage
+             }
           }
         //})
       }

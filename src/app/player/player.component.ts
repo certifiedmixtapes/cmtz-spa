@@ -6,7 +6,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { environment } from '../../environments/environment';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@angular/cdk/drag-drop';
-import clonedeep from 'lodash.clonedeep';
+//import clonedeep from 'lodash.clonedeep';
 
 
 
