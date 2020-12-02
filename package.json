@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build-prod": "ng build --configuration=production",
-    "build-prod-cdn": "ng build --configuration=production --deploy-url https://certifiedmixtapes-eepvd.ondigitalocean.app",
+    "build-prod-cdn": "ng build --configuration=production --deploy-url https://certifiedmixtapes-eepvd.ondigitalocean.app/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
