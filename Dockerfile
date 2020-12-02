@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build-prod
+RUN npm run build-prod-cdn
 
 FROM nginx:1.15.8-alpine
 
