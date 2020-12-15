@@ -1,15 +1,15 @@
-<app-artist [searchKey]="searchKey" *ngIf="searchKey!==''"></app-artist>
+<!--app-artist [searchKey]="searchKey" *ngIf="searchKey!==''"></app-artist-->
 <h4>Featured</h4>
 <mat-divider></mat-divider>
 <div class="row">
     <div class="col-xs-6 col-sm-3" *ngFor="let album of featuredArray">
         <mat-card class="album-card" (mouseover)="toggleHover(album.id)" (mouseleave)="removeHover()"> 
-            <mat-card-content (click)="playTracks(album)"> 
+            <mat-card-content  (click)="playTracks(album)"> 
                 <div class="pos-rlt">
                     <div class="item-overlay play-overlay center">
                         <mat-icon *ngIf="hoverButton === album.id" mat-list-icon>play_arrow_rounded</mat-icon>
                     </div>
-                    <img src="{{album.coverImageName}}"  width="100%" class="responsive-image">
+                    <img appLazyLoad src="{{isMobile ? album.thumbImg : album.coverImageName}}"  width="100%" class="responsive-image">
                     <!--img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
                         src="{{album.coverImageName}}?webp.lossless=true" alt="{{album.title}}"-->
                 </div>
@@ -31,7 +31,7 @@
                     <div class="item-overlay play-overlay center">
                         <mat-icon *ngIf="hoverButton === album.id" mat-list-icon>play_arrow_rounded</mat-icon>
                     </div>
-                    <img [src]="album.coverImageName"  width="100%" class="responsive-image">
+                    <img appLazyLoad [src]="isMobile ? album.thumbImg : album.coverImageName"  width="100%" class="responsive-image">
                     <!--img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
                     src="{{album.coverImageName}}?webp.lossless=true" alt="{{album.title}}"-->
 
@@ -53,7 +53,7 @@
     <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6" *ngFor="let album of videoArray">
         <mat-card class="album-card" matRipple routerLink="/video/{{album.id}}"> 
             <mat-card-content>
-            <img [src]="album.videoPoster"  width="100%" class="responsive-image">
+            <img appLazyLoad [src]="album.videoPoster"  width="100%" class="responsive-image">
             <!--img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
             src="{{album.videoPoster}}?webp.lossless=true" alt="{{album.title}}"-->
 
@@ -68,17 +68,17 @@
 <button mat-raised-button color="primary">View More</button>
 <br>
 
-<h4>Trending Singles</h4>
-<mat-divider></mat-divider>
-<div class="row">
+<h4 *ngIf="!isMobile" >Trending Singles</h4>
+<mat-divider *ngIf="!isMobile" ></mat-divider>
+<div class="row" *ngIf="!isMobile" >
     <div class="col-xs-6 col-sm-4" *ngFor="let track of singleArray;let indexOfelement=index;">
         <mat-card class="single-card" (mouseover)="toggleHover(track.id)" (mouseleave)="removeHover()"> 
                 <mat-card-content (click)="playSingles(indexOfelement)" class="home-card-content">
                     <div class="pos-rlt">
                         <div class="item-overlay play-overlay center">
                             <mat-icon *ngIf="hoverButton === track.id" mat-list-icon>play_arrow_rounded</mat-icon>
-                        </div>            
-                        <img mat-card-image [src]="track.album.coverImageName"  height="100%" class="responsive-image">
+                        </div>
+                        <img appLazyLoad [src]="isMobile ? track.album.thumbImg : track.album.coverImageName"  width="100%" height="100%" class="responsive-image">
                     </div>
                     <div>
                         <div>{{track.trackTitle}}</div>
@@ -103,7 +103,7 @@
                     <div class="item-overlay play-overlay center">
                             <mat-icon *ngIf="hoverButton === radio.id" mat-list-icon>play_arrow_rounded</mat-icon>
                     </div>
-                    <img [src]="radio.coverImageName"  width="100%" class="responsive-image">
+                    <img appLazyLoad [src]="radio.coverImageName"  width="100%" class="responsive-image">
                 </div>
             </mat-card-content>
             <mat-card-header class="album-header">

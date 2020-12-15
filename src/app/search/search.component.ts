@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PlayerService } from '../shared/player.service';
 import { environment } from '../../environments/environment';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { isPlatformBrowser} from '@angular/common';
+
 
 @Component({
   selector: 'app-search',
@@ -25,8 +27,11 @@ export class SearchComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private playerService: PlayerService,
+   @Inject(PLATFORM_ID) private platformId: string,
     private deviceService: DeviceDetectorService
-  ) { }
+  ) { 
+
+  }
 
   ngOnInit() {
     this.checkBrowser();
@@ -36,11 +41,13 @@ export class SearchComponent implements OnInit {
         this.getAlbum(param.name);
       }
       else {
-        this.buttonStream$ = this.searchTextChanged
-        .pipe(debounceTime(1000))
-        .subscribe(q => {
-          this.getAlbum(q)
-         });
+        if (isPlatformBrowser(this.platformId)) {
+          this.buttonStream$ = this.searchTextChanged
+          .pipe(debounceTime(1000))
+          .subscribe(q => {
+            this.getAlbum(q)
+          });
+        }
       }
     });
   }

@@ -1,7 +1,7 @@
 
-<infinite-scroll (scrolled)="onScroll()">
+<!--infinite-scroll (scrolled)="onScroll()"-->
 <button mat-button style="background-color: #3b97f9; color: white; margin-right: 10px;"[matMenuTriggerFor]="monthMenu">Month</button>
-<!--button mat-button style="background-color: #3b97f9; color: white;" [matMenuTriggerFor]="genreMenu">All Genres</button-->
+<button mat-button style="background-color: #3b97f9; color: white;" [matMenuTriggerFor]="genreMenu">All Genres</button>
 
 <!-- #enddocregion mat-menu-trigger-for -->
 <mat-menu #monthMenu="matMenu">
@@ -31,8 +31,8 @@
                 </div>
             </mat-card-content>
             <mat-card-header class="album-header">
-                <mat-card-title class="album-title" (click)="onGetTracks(album)">{{album.title}}</mat-card-title>
-                <mat-card-subtitle (click)="onGetTracks(album)">{{album.artists}}</mat-card-subtitle>
+                <mat-card-title class="album-title" routerLink="/album/{{album.id}}">{{album.title}}</mat-card-title>
+                <mat-card-subtitle routerLink="/search/{{album.artists}}">{{album.artists}}</mat-card-subtitle>
             </mat-card-header>
         </mat-card>
     </div>
@@ -41,4 +41,4 @@
 <div class=""*ngIf="isLoading$">
     Loading mixtapes...
 </div>
-</infinite-scroll>
+<!--/infinite-scroll-->

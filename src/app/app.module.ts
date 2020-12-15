@@ -16,18 +16,17 @@ import {MatSidenavModule} from '@angular/material/sidenav'
 import { NgxYoutubePlayerModule  } from "ngx-youtube-player";
 import { AppComponent } from './app.component';
 import { ArtistComponent } from './artist/artist.component';
-import { AlbumComponent } from './album/album.component';
-import { TrackComponent } from './track/track.component';
+//import { AlbumComponent } from './album/album.component';
+//import { TrackComponent } from './track/track.component';
 import { PlayerComponent } from './player/player.component';
 import { TrackControlComponent } from './track/track-control/track-control.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
-import { TracksComponent } from './tracks/tracks.component';
+//import { TracksComponent } from './tracks/tracks.component';
 import { SearchComponent } from './search/search.component';
 import { AlbumDetailsComponent } from './album-details/album-details.component';
-import { InfinitescrollComponent } from './infinitescroll/infinitescroll.component';
 import { NewMixtapesComponent } from './new-mixtapes/new-mixtapes.component';
-import { PopularMixtapesComponent } from './popular-mixtapes/popular-mixtapes.component';
+//import { PopularMixtapesComponent } from './popular-mixtapes/popular-mixtapes.component';
 import { VideoDetailsComponent } from './video-details/video-details.component';
 import { CommonModule, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { DeviceDetectorModule } from 'ngx-device-detector';
@@ -42,7 +41,11 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgBottomNavigationModule} from 'ng-bottom-navigation';
 import { SinglesComponent } from './singles/singles.component';
 import {MatMenuModule} from '@angular/material/menu';
-
+import { InfiniteScrollModule } from './infinitescroll/infinitescroll.module';
+import { LazyImgDirective } from './img-lazy-load/lazy-img.directive';
+import { PlayerModule } from './player/player.module';
+import { LoadableModule , matcher} from 'ngx-loadable';
+import { HomeModule } from './home/home.module';
 
 
 
@@ -50,29 +53,13 @@ import {MatMenuModule} from '@angular/material/menu';
 @NgModule({
   declarations: [
     AppComponent,
-    ArtistComponent,
-    AlbumComponent,
-    CommentboxComponent,
-    CommentsComponent,
-    ChildboxComponent,
-    DatacontainerDirective,
-    TrackComponent,
-    PlayerComponent,
-    TrackControlComponent,
-    HomeComponent,
-    TracksComponent,
-    SearchComponent,
-    AlbumDetailsComponent,
-    InfinitescrollComponent,
-    NewMixtapesComponent,
-    PopularMixtapesComponent,
-    VideoDetailsComponent,
-    SinglesComponent,
+    ArtistComponent,// - unused
+    //PlayerComponent,
+    //PopularMixtapesComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     DeviceDetectorModule.forRoot(),
-    NgxYoutubePlayerModule.forRoot(),
     HttpClientModule,
     HttpClientJsonpModule,
     BrowserAnimationsModule,
@@ -94,9 +81,23 @@ import {MatMenuModule} from '@angular/material/menu';
     MatIconModule,
     MatRippleModule,
     FormsModule,
+    HomeModule,
     HttpClientModule,
     ReactiveFormsModule,
-    CommonModule
+    /*LoadableModule.forRoot({
+      moduleConfigs: [
+        {
+          name: "player",
+          loadChildren: () =>
+            import("./player/player.module").then(
+              m => m.PlayerModule
+            ),
+          matcher
+        }
+      ]
+    }),*/
+    PlayerModule,
+    CommonModule,
   ],
   providers: [{ provide: LocationStrategy, useClass: PathLocationStrategy}],
   bootstrap: [AppComponent],

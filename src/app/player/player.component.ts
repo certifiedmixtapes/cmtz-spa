@@ -2,10 +2,13 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { PlayerService } from '../shared/player.service';
 import { UnmuteService } from '../shared/unmute.service';
 import WaveSurfer from 'wavesurfer.js';
+import MediaSessionPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.mediasession.min.js';
+//import MediaSessionPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.mediasession.js'
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { environment } from '../../environments/environment';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDropList} from '@angular/cdk/drag-drop';
+import { HostListener } from '@angular/core';
 //import clonedeep from 'lodash.clonedeep';
 
 
@@ -55,7 +58,9 @@ export class PlayerComponent implements OnInit {
   }
 
 
-  constructor(private playerSer: PlayerService, private unmuteService: UnmuteService, private cdr: ChangeDetectorRef) {
+  constructor(private playerSer: PlayerService, private unmuteService: UnmuteService,  
+    private cdr: ChangeDetectorRef) {
+
     playerSer.playTrack$.subscribe(order => {
       this.trackIndex = Number(order);
       this.currentTrack = this.playerSer.getQueue()[this.trackIndex];
@@ -85,21 +90,11 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.player = this.playerRef.nativeElement;
+
   }
-
-  dropTable(event: CdkDragDrop<string[]>) {
-    console.log(event);
-    const prevIndex = this.dataSource.data.findIndex((d) => d === event.item.data);
-    moveItemInArray(this.dataSource.data, prevIndex, event.currentIndex);
-    //this.playerSer.queueTracks(this.dataSource.data);
-
-    this.table.renderRows();
-  }
-
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log("event: " + event);
+    //console.log("event: " + event);
 
     if (event.previousContainer === event.container) {
 
@@ -114,7 +109,7 @@ export class PlayerComponent implements OnInit {
     // updates moved data and table, but not dynamic if more dropzones
     //this.dataSource.data = clonedeep(this.dataSource.data);
     //this.playerSer.queueTracks(this.dataSource.data);
-    console.log("trackdata: " + JSON.stringify(this.dataSource.data));
+    //console.log("trackdata: " + JSON.stringify(this.dataSource.data));
     //this.table.renderRows();
 
   }
@@ -122,9 +117,9 @@ export class PlayerComponent implements OnInit {
   playTrack(previewUrl) {
     //this.player.src = previewUrl;
     //this.player.play();
-    if (!this.wave) {
-      this.generateWaveform();
-    }
+    //if (!this.wave) {
+    this.generateWaveform();
+    //}
 
     this.cdr.detectChanges();
 
@@ -137,11 +132,11 @@ export class PlayerComponent implements OnInit {
     this.isPlaying = true;
   }
   pause() {
-    //this.player.pause();
     this.wave.pause();
     this.isPlaying = false;
   }
 
+  @HostListener('window:next-event', ['$event']) 
   next(){
     this.trackIndex = this.trackIndex + 1;
     this.playerSer.playTrack(this.trackIndex.toString())
@@ -171,6 +166,7 @@ export class PlayerComponent implements OnInit {
     return this.queueShowing;
   }
 
+  @HostListener('window:prev-event', ['$event']) 
   prev() {
     if(this.trackIndex != 0){
       this.trackIndex = this.trackIndex - 1;
@@ -180,16 +176,6 @@ export class PlayerComponent implements OnInit {
 
   playerEnded() {
     this.playerSer.trackEnded();
-  }
-
-  onPreviewPressed(): void {
-    if (!this.wave) {
-      this.generateWaveform();
-    }
-
-    this.cdr.detectChanges();
-
-    Promise.resolve().then(() => this.wave.load(this.player.src));
   }
 
   generateWaveform(): void {
@@ -205,8 +191,35 @@ export class PlayerComponent implements OnInit {
         height: 100,
         backend: 'MediaElement',
         fillParent: true,
-        barGap: 2.5
+        barGap: 2.5,
+        plugins:[ MediaSessionPlugin.create({
+          metadata: {
+              title: this.trackTitle,
+              artist: this.currentTrack.album.artists,
+              album: this.currentTrack.album.title,
+              artwork: [
+                {src: this.coverImage,   sizes: '96x96',   type: 'image/png'},
+                {src: this.coverImage, sizes: '128x128', type: 'image/png'},
+                {src: this.coverImage, sizes: '192x192', type: 'image/png'},
+                {src: this.coverImage, sizes: '256x256', type: 'image/png'},
+                {src: this.coverImage, sizes: '384x384', type: 'image/png'},
+                {src: this.coverImage, sizes: '512x512', type: 'image/png'},
+              ]
+          }
+      })]
       });
+
+      if ('mediaSession' in navigator) {
+          window.navigator["mediaSession"].setActionHandler('previoustrack', function() {
+             //this.prev();
+             window.dispatchEvent(new Event('prev-event'));
+          });
+          
+          window.navigator["mediaSession"].setActionHandler('nexttrack', function() {
+            //this.next();
+            window.dispatchEvent(new Event('next-event'));
+          });
+      } 
 
       this.wave.on('ready', () => {
         //waveSurfer.backend.getAudioContext()
@@ -221,7 +234,4 @@ export class PlayerComponent implements OnInit {
       });
     });
   }
-
-  
-
 }

@@ -1,14 +1,17 @@
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, PLATFORM_ID, Inject } from '@angular/core';
 import { ItunesService } from './shared/itunes.service';
 import { fromEvent,interval, Subject, Subscription } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { PlayerService } from './shared/player.service';
 import { environment } from '../environments/environment'
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
+import { isPlatformBrowser} from '@angular/common';
 
 
+
+declare let gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -26,18 +29,28 @@ export class AppComponent implements OnInit,AfterViewInit {
   isMobile: boolean = false;
   buttonStream$: Subscription
   searchResults: Array<any> = [];
-  constructor(private router: Router, private ituneService: ItunesService, private playerService: PlayerService, private deviceService: DeviceDetectorService) {
+  constructor(private router: Router, private ituneService: ItunesService, private playerService: PlayerService, private deviceService: DeviceDetectorService, @Inject(PLATFORM_ID) private platformId: string,
+  ) {
     this.checkBrowser();
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd){
+
+        console.log(event.urlAfterRedirects);
+        gtag('config', 'G-EGFT80Q92S', {'page_path': event.urlAfterRedirects});
+      }
+    })
+
   }
 
   ngOnInit(){
-    this.buttonStream$ = this.searchTextChanged
-        .pipe(debounceTime(1000))
-        //.distinctUntilChanged()
-        //.mergeMap(search => )
-        .subscribe(q => {
-          this.searchByArtist(q)
-         });
+    if(isPlatformBrowser(this.platformId)){
+      this.buttonStream$ = this.searchTextChanged
+          .pipe(debounceTime(1000))
+          .subscribe(q => {
+            this.searchByArtist(q)
+          });
+    }
+        
   }
 
   checkBrowser(){

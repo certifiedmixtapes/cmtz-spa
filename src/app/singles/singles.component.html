@@ -28,9 +28,9 @@
                 </div>
             </mat-card-content>
             <mat-card-header class="album-header">
-                <mat-card-title class="album-title" (click)="onGetTracks(album)">{{track.trackTitle}}</mat-card-title>
-                <mat-card-subtitle (click)="onGetTracks(track)">{{track.album.title}}</mat-card-subtitle>
-                <mat-card-subtitle (click)="onGetTracks(track)">{{track.album.artists}}</mat-card-subtitle>
+                <mat-card-title class="album-title" (click)="playSingles(indexOfelement)">{{track.trackTitle}}</mat-card-title>
+                <mat-card-subtitle routerLink="/album/{{track.album.id}}">{{track.album.title}}</mat-card-subtitle>
+                <mat-card-subtitle routerLink="/search/{{track.album.artists}}">{{track.album.artists}}</mat-card-subtitle>
             </mat-card-header>
         </mat-card>
     </div>

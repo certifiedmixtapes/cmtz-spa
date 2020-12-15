@@ -6,7 +6,8 @@
     "target": "es2016"
   },
   "angularCompilerOptions": {
-    "entryModule": "app/app.server.module#AppServerModule"
+    "entryModule": "app/app.server.module#AppServerModule",
+    "enableIvy": true
   },
   "files": [
     "main.server.ts",

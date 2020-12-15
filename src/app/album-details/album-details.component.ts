@@ -8,6 +8,7 @@ import { PLATFORM_ID, Inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { Meta, Title } from '@angular/platform-browser';
 const branchio = require('branchio-sdk');
 
 
@@ -41,6 +42,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
     private playerService: PlayerService,
     private http: HttpClient,
     private deviceService: DeviceDetectorService,
+    private titleService: Title, private metaService: Meta,
     @Inject(PLATFORM_ID) platformId: string
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -51,50 +53,50 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       this.routeParams = params;
       this.count = 0;
-      /*his.ituneService.getTracks(params.colllection_id).subscribe(tracks => {
-        this.tracks = tracks;
-        this.selectedAlbum = new Album(this.tracks.shift());
-      });*/
-
+  
         var id = params.id;
         this.http.get<any>(environment.apiUrl +'/api/tracks?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&albumId='+ id).subscribe(
           response => {
             this.checkBrowser()
 
-          //res.json().then( response =>{
-            //this.videoArray = response.responseObject[0].items;
             console.log(response.responseObject[0].album);
             this.selectedAlbum = response.responseObject[0].album;
             this.selectedAlbum.trackCount = response.responseObject.length;
             this.tracks = response.responseObject;
+            var cover = this.selectedAlbum.coverImageName;
+            this.selectedAlbum.coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + cover + "?width=300&webp.lossless=true";
+
+            this.titleService.setTitle(this.selectedAlbum.title);
+            this.metaService.addTags([
+              {name: 'keywords', content: this.selectedAlbum.keyWords},
+              {name: 'description', content: 'Stream & Download Mixtape ' + this.selectedAlbum.title },
+            ]);
+      
 
             this.http.get<any>(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=1&searchString=' + this.selectedAlbum.artists + '&currentPage=1&itemsPerPage=5').subscribe(
               response => {
-                //res.json().then( response =>{
                   this.suggestedArray = response.responseObject[0].items;
-                //})
+                  for(let f = 0; f < this.suggestedArray.length; f++){
+                    var coverImage = this.suggestedArray[f].coverImageName;
+                     this.suggestedArray[f].coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=64&webp.lossless=true";
+                  }
               }
             );
 
             this.http.get<any>(environment.apiUrl + '/api/videos/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=1&searchString=' + this.selectedAlbum.artists + '&currentPage=1&itemsPerPage=5').subscribe(
               response => {
-                //res.json().then( response =>{
                   this.suggestedVideos = response.responseObject[0].items;
-                //})
               }
             );
 
             if(this.isMobile){
               this.buildMobileLink();
             }
-
-          //})
         }
       );
 
       this.http.get<any>(environment.apiUrl +'/api/mixtapes/comments/'+ id +'?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').subscribe(
         response => {
-          //res.json().then( response =>{
              var commentArr = response.responseObject;
              for(let i = 0; i< commentArr.length; i++){
               
@@ -107,7 +109,6 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
              }
 
             this.comments = this.commentArray as any;
-          //})
         }
       );
 
@@ -120,7 +121,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
   }
 
   getGenre(){
-   var genreCode = this.selectedAlbum.genreType
+   var genreCode = this.selectedAlbum?.genreType
    switch(genreCode) {
     case 1:
       return "Rap";

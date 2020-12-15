@@ -77,6 +77,11 @@
       </application-content>
       <mat-toolbar role="footer" style="background:black;margin-bottom: 70px;" class="mat-elevation-z3 music-control" [hidden]="!showing()" >
         <app-player></app-player>
+        <!--ngx-loadable
+            #playerModule
+            module="player"
+            [show]="!showing()"
+          ></ngx-loadable-->
       </mat-toolbar>
 
       <!-- The bottom nav bar -->
@@ -109,4 +114,9 @@
   </bottom-nav-wrapper>
 <mat-toolbar *ngIf="!isMobile" role="footer" style="background:black;" class="mat-elevation-z3 music-control" [hidden]="!showing()" >
   <app-player></app-player>
+  <!--ngx-loadable
+  #playerModule
+  module="player"
+  [show]="!showing()"
+></ngx-loadable-->
 </mat-toolbar>

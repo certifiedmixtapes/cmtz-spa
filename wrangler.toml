@@ -2,7 +2,7 @@ name = "cmtz"
 type = "webpack"
 account_id = "63646b37a40a3fdce7d248c2648d0941"
 workers_dev = true
-route = ""
+route = "*certifiedmixtapes.com/*"
 zone_id = ""
 
 

@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy, Input, Output, ViewChild, EventEmitter, E
   selector: 'infinite-scroll',
   template: `<ng-content></ng-content><div #anchor></div>`,
 })
-export class InfinitescrollComponent implements OnInit, OnDestroy {
+export class InfiniteScrollComponent implements OnInit, OnDestroy {
   @Input() options = {};
   @Output() scrolled = new EventEmitter();
   @ViewChild('anchor', { static: true }) anchor: ElementRef<HTMLElement>;

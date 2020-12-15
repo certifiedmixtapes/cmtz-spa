@@ -10,12 +10,35 @@ const fs = require('fs');
 const path = require('path');
 const template = fs.readFileSync(path.join(DIST_FOLDER, 'index.html')).toString();
 const win = domino.createWindow(template);
+
 global['window'] = win;
 global['document'] = win.document;
+global['navigator'] = win.navigator
+global['self'] = win
+global['IDBIndex'] = win.IDBIndex
+global['getComputedStyle'] = win.getComputedStyle;
+/*global['window']['msRequestAnimationFrame']  = function(callback) {
+  let lastTime = 0;
+  const currTime = new Date().getTime();
+  const timeToCall = Math.max(0, 16 - (currTime - lastTime));
+  let id: number;
+  id = <any>setTimeout(function() { callback(currTime + timeToCall); },
+    timeToCall);
+  lastTime = currTime + timeToCall;
+  return id;
+};*/
+
+
+global['cancelAnimationFrame'] = function(id) {
+  clearTimeout(id);
+};
+
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
+
+
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app() {
@@ -24,13 +47,8 @@ export function app() {
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
   const template = fs.readFileSync(path.join(distFolder, 'index.html')).toString();
   const win = domino.createWindow(template.toString());
-  global['window'] = win;
-  global['document'] = win.document;
-  global['self'] = win
-  global['IDBIndex'] = win.IDBIndex
-  global['document'] = win.document
-  global['navigator'] = win.navigator
-  global['getComputedStyle'] = win.getComputedStyle;
+
+
   
 
 

@@ -21,6 +21,9 @@ export class HomeComponent implements OnInit {
   singleArray: Array<any> = [];
   radioArray: Array<any> = [];
   public hoverButton:any;
+  isMobile: boolean = false;
+
+
 
 
   search(value: string) {
@@ -32,15 +35,29 @@ export class HomeComponent implements OnInit {
        private videoService: VideoService,
            private deviceService: DeviceDetectorService
     ) {
-
+       this.getMobile();
     }
 
+ /* loadPlayer(){
+    this.loadableService.preload('player')
+            .then(() => console.log('loaded'))
+            .catch((error) => console.error(error))
+  }*/
+
+  getMobile(){
+    this.isMobile = this.deviceService.isMobile();
+  }
   ngOnInit() {
 
     //Featured
     this.http.get<any>(environment.apiUrl + '/api/mixtapes/featured?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').subscribe(
       response => {
           this.featuredArray = response.responseObject;
+          for(let f = 0; f < this.featuredArray.length; f++){
+            var coverImage = this.featuredArray[f].coverImageName;
+             this.featuredArray[f].coverImageName = "http://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=350&webp.lossless=true";
+             this.featuredArray[f].thumbImg = "http://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=200&webp.lossless=true";
+          }
       }
     );
 
@@ -49,11 +66,12 @@ export class HomeComponent implements OnInit {
       response => {
        // res.json().then( response =>{
           this.mixtapeArray = response.responseObject[0].items;
-          /*for(let f = 0; f < this.mixtapeArray.length; f++){
+          for(let f = 0; f < this.mixtapeArray.length; f++){
             var coverImage = this.mixtapeArray[f].coverImageName;
-             var baseImage = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","https://do-images-klqk8.ondigitalocean.app/do");
-             this.mixtapeArray[f].coverImageName = baseImage + "?webp.lossless=true";;
-             this.mixtapeArray[f].imageSrcSet = [
+             //var baseImage = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","http://images.certifiedmixtapes.com/do");
+             this.mixtapeArray[f].coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=350&webp.lossless=true";
+             this.mixtapeArray[f].thumbImg = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=200&webp.lossless=true";
+             /*this.mixtapeArray[f].imageSrcSet = [
               baseImage + "?width=200&webp.lossless=true 150w",
               baseImage + "?width=200&webp.lossless=true 255w",
               baseImage + "?width=340&webp.lossless=true  340w",
@@ -63,8 +81,8 @@ export class HomeComponent implements OnInit {
               "(max-width: 200px) 160px",
               "(max-width: 340px) 300px",
               "500px"
-            ]
-          }*/
+            ]*/
+          }
        // })
       }
     );
@@ -72,16 +90,30 @@ export class HomeComponent implements OnInit {
     // New Videos
     this.http.get<any>(environment.apiUrl + '/api/videos/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').subscribe(
       response => {
+          // 240 * 180
           this.videoArray = response.responseObject[0].items;
+          for(let f = 0; f < this.videoArray.length; f++){
+            var coverImage = this.videoArray[f].videoPoster;
+            this.videoArray[f].videoPoster = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=240&height=180&webp.lossless=true";
+          }
+          
       }
     );
 
+    if(!this.isMobile){
     // Trending Single
-    this.http.get<any>(environment.apiUrl + '/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&trackSort=4&range=1&singleType=1&itemsPerPage=20&currentPage=1').subscribe(
-      response => {
-              this.singleArray = response.responseObject[0].items;
-          }
-     );
+      this.http.get<any>(environment.apiUrl + '/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&trackSort=4&range=1&singleType=1&itemsPerPage=20&currentPage=1').subscribe(
+        response => {
+                this.singleArray = response.responseObject[0].items;
+                for(let f = 0; f < this.singleArray.length; f++){
+                  var coverImage = this.singleArray[f].album.coverImageName;
+                  this.singleArray[f].album.coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=350&webp.lossless=true";
+                  this.singleArray[f].album.thumbImg = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=200&webp.lossless=true";
+                }
+      
+            }
+      );
+    }
 
      // Radio Genre
      this.http.get<any>(environment.apiUrl + '/api/radio/list?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').subscribe(
