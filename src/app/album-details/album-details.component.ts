@@ -109,6 +109,7 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
              }
 
             this.comments = this.commentArray as any;
+            this.count = this.comments.length;
         }
       );
 

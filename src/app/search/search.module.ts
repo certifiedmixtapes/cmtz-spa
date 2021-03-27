@@ -5,6 +5,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import { SearchRoutingModule } from './search-routing.module';
 import { SearchComponent } from './search.component';
 import { MatIconModule } from '@angular/material/icon';
+import { InfiniteScrollModule } from '../infinitescroll/infinitescroll.module';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -12,7 +14,9 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     HttpClientModule,
     HttpClientJsonpModule,
+    MatCardModule,
     MatDividerModule,
+    InfiniteScrollModule,
     MatIconModule,
     SearchRoutingModule,
   ],

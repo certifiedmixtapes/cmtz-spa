@@ -8,7 +8,7 @@ addEventListener("fetch", event => {
 
 async function handleEvent(event) {
           // HTML NO BROWSER TTL
-          if (
+        /*  if (
             url.pathname.endsWith(".html") ||
             !url.pathname.includes(".")
         ) {
@@ -34,8 +34,15 @@ async function handleEvent(event) {
                 public: true,
                 immutable: true
             };
-        }
+        }*/
+
   try {
+    const cacheControl = {
+      edgeTTL: 8640000,
+      browserTTL: 8640000,
+      public: true
+    };
+    
     const resp = await getAssetFromKV(event, { cacheControl, mapRequestToAsset: serveSinglePageApp });
     resp.headers.set("Content-Encoding", "gzip");
     return resp;

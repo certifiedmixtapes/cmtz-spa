@@ -1,5 +1,7 @@
-<youtube-player *ngIf="videoId"
-[videoId]="videoId"
+<youtube-player *ngIf="ytvideoId"
+[videoId]="ytvideoId"
 (ready)="savePlayer($event)"
 (change)="onStateChange($event)"
 ></youtube-player>
+<video *ngIf="videoId "#videoElement controls="true" src="{{videoId}}"> </video>
+

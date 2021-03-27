@@ -36,7 +36,7 @@
           {{selectedAlbum?.createdOn | date:'yyyy'}} | {{selectedAlbum?.trackCount}} Songs | {{getGenre()}}
       </div>
     </div>
-    <div class="row">
+    <div  class="row">
       <a mat-list-item >
         <i (click)="playTrack(tracks[0])" style="margin-left: 25px; margin-top: 15px; font-size: 30px;" class="fas fa-play"></i>
       </a>
@@ -85,7 +85,7 @@
     <br>
     <div class="row" *ngFor="let item of suggestedArray;let indexOfelement=index;">
       <a routerLink="/album/{{item.id}}">
-        <img class="thumb-md" style="margin-left: 15px; margin-right: 15px; margin-bottom: 10px;" src="{{ item.coverImageName }}"/> 
+        <img appLazyLoad class="thumb-md" style="margin-left: 15px; margin-right: 15px; margin-bottom: 10px;" src="{{ item.coverImageName }}"/> 
      </a>
       <div class="truncate">{{item.title}}</div>
     </div>
@@ -94,7 +94,7 @@
     <br>
     <div class="row" *ngFor="let item of suggestedVideos;let indexOfelement=index;">
       <a routerLink="/video/{{item.id}}">
-        <img class="thumb-md" style="margin-left: 15px; margin-right: 15px; margin-bottom: 10px;" src="{{ item.videoPoster }}"/> 
+        <img appLazyLoad class="thumb-md" style="margin-left: 15px; margin-right: 15px; margin-bottom: 10px;" src="{{ item.videoPoster }}"/> 
       </a>
       <div class="truncate">{{item.title}}</div>
     </div>

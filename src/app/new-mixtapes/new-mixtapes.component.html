@@ -1,21 +1,29 @@
 <infinite-scroll (scrolled)="onScroll()">
     <button mat-button *ngIf="sort != 1" style="background-color: #3b97f9; color: white; margin-right: 10px;"[matMenuTriggerFor]="monthMenu">{{rangeButton}}</button>
-    <!--button mat-button *ngIf="sort != 1" style="background-color: #3b97f9; color: white;" [matMenuTriggerFor]="genreMenu">All Genres</button-->
+    <button mat-button *ngIf="sort != 1" style="background-color: #3b97f9; color: white;" [matMenuTriggerFor]="genreMenu">{{genreButton}}</button>
+    <button mat-button *ngIf="sort == 1" style="background-color: #3b97f9; color: white;" [matMenuTriggerFor]="recentGenreMenu">{{genreButton}}</button>
 
 <!-- #enddocregion mat-menu-trigger-for -->
 <mat-menu #monthMenu="matMenu">
-  <button routerLink="/mixtapes/popular/all" mat-menu-item>All</button>
-  <button routerLink="/mixtapes/popular/month" mat-menu-item>Month</button>
-  <button routerLink="/mixtapes/popular/week" mat-menu-item>Week</button>
-  <button routerLink="/mixtapes/popular/day" mat-menu-item>Day</button>
+  <button routerLink="{{genreText}}/mixtapes/popular/all" mat-menu-item>All</button>
+  <button routerLink="{{genreText}}/mixtapes/popular/month" mat-menu-item>Month</button>
+  <button routerLink="{{genreText}}/mixtapes/popular/week" mat-menu-item>Week</button>
+  <button routerLink="{{genreText}}/mixtapes/popular/day" mat-menu-item>Day</button>
 </mat-menu>
 
 <mat-menu #genreMenu="matMenu">
-  <button  mat-menu-item>All</button>
-  <button mat-menu-item>Rap</button>
-  <button mat-menu-item>R&B</button>
-  <button mat-menu-item>Screwed & Chopped</button>
+  <button routerLink="/mixtapes/popular/{{rangeText}}" mat-menu-item>All</button>
+  <button routerLink="/rap/mixtapes/popular/{{rangeText}}" mat-menu-item>Rap</button>
+  <button routerLink="/rnb/mixtapes/popular/{{rangeText}}" mat-menu-item>R&B</button>
+  <button routerLink="/s&c/mixtapes/popular/{{rangeText}}" mat-menu-item>Screwed & Chopped</button>
 </mat-menu>
+
+<mat-menu #recentGenreMenu="matMenu">
+    <button routerLink="/mixtapes/newest" mat-menu-item>All</button>
+    <button routerLink="/rap/mixtapes/newest" mat-menu-item>Rap</button>
+    <button routerLink="/rnb/mixtapes/newest" mat-menu-item>R&B</button>
+    <button routerLink="/s&c/mixtapes/newest" mat-menu-item>Screwed & Chopped</button>
+  </mat-menu>
 
   <div class="row">
     <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6" *ngFor="let album of mixtapeArray">
@@ -29,7 +37,7 @@
                 </div>
             </mat-card-content>
             <mat-card-header class="album-header">
-                <mat-card-title class="album-title" routerLink="/album/{{album.id}}" >{{album.title}}</mat-card-title>
+                <mat-card-title class="album-title" routerLink="/album/{{album.id}}/{{album.filePath}}" >{{album.title}}</mat-card-title>
                 <mat-card-subtitle routerLink="/search/{{album.artists}}">{{album.artists}}</mat-card-subtitle>
             </mat-card-header>
         </mat-card>

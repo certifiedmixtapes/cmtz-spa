@@ -18,8 +18,11 @@ export class NewMixtapesComponent implements OnInit {
   range: number = 3;
   sort: number;
   genre: number;
-  rangeButton: string = "Month"
+  genreButton: string = "All Genres";
+  genreText: string = "";
 
+  rangeButton: string = "Month"
+  rangeText: string = "month"
 
 
   constructor(private router: Router, private route: ActivatedRoute,
@@ -32,12 +35,15 @@ export class NewMixtapesComponent implements OnInit {
           this.sort = this.getSort(param.sort);
           
           if(param.range !== undefined){
+            this.rangeText =  param.range;
             this.rangeButton = this.getRangeText(param.range);
             this.range = this.getRange(param.range);
           }
 
           if(param.genre !== undefined){
-            this.genre = param.genre;
+            this.genreText = "/" + param.genre;
+            this.genre = this.getGenre(param.genre);
+            this.genreButton = this.getGenreText(param.genre);
           }
 
           if (this.sort == 1){
@@ -67,7 +73,12 @@ export class NewMixtapesComponent implements OnInit {
     console.log("onScrolling " + this.page) ;
 
     if (this.sort === 1){
-        fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=' + this.page +'&itemsPerPage=12').then(
+        var url = environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=' + this.page +'&itemsPerPage=12'
+        if(this.genre !== undefined){
+          url = url + '&genre=' + this.genre;
+        }
+
+        fetch(url).then(
               res => {
                 res.json().then( response =>{
                   var nextPage = response.responseObject[0].items;
@@ -78,7 +89,15 @@ export class NewMixtapesComponent implements OnInit {
         );
       }
       else {
-        fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&sort=4&range='+ this.range + '&currentPage=' + this.page +'&itemsPerPage=12').then(
+        var mixtapeUrl = environment.apiUrl + 
+        '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&sort=4&range='+
+         this.range + '&currentPage=' + this.page +'&itemsPerPage=12';
+
+        if(this.genre !== undefined){
+          mixtapeUrl = mixtapeUrl + '&genre=' + this.genre;
+        }
+    
+        fetch(mixtapeUrl).then(
           res => {
             res.json().then( response =>{
               var nextPage = response.responseObject[0].items;
@@ -101,9 +120,14 @@ export class NewMixtapesComponent implements OnInit {
   getMixtapes(){
     // Popular Mixtapes - 4
     this.page = this.page + 1;
-    fetch(environment.apiUrl 
-      + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&sort=4&range='
-      + this.range +'&currentPage='+ this.page + '&itemsPerPage=12').then(
+
+    var mixtapeUrl = environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&sort=4&range='
+    + this.range +'&currentPage='+ this.page + '&itemsPerPage=12';
+
+    if(this.genre !== undefined){
+      mixtapeUrl = mixtapeUrl + '&genre=' + this.genre;
+    }
+    fetch(mixtapeUrl).then(
       res => {
         res.json().then( response =>{
           this.mixtapeArray = response.responseObject[0].items;
@@ -126,6 +150,60 @@ export class NewMixtapesComponent implements OnInit {
     }
 
     return 1;
+  }
+
+  getGenre(genre){
+    if(genre === "rap"){
+      return 1;
+    }
+    if(genre === "rnb"){
+      return 2;
+    }
+    if(genre === "edm"){
+      return 3;
+    }
+    if(genre === "christian"){
+      return 4;
+    }
+    if(genre === "hiphopblends"){
+      return 5;
+    }
+    if(genre === "soul"){
+      return 6;
+    }
+    if(genre ==="instrumentals"){
+      return 7;
+    }
+    if(genre ==="s&c"){
+      return 8;
+    }
+  }
+
+  getGenreText(genre){
+    if(genre === "rap"){
+      return "Rap";
+    }
+    if(genre === "rnb"){
+      return "R&B";
+    }
+    if(genre === "edm"){
+      return "EDM";
+    }
+    if(genre === "christian"){
+      return "Christian";
+    }
+    if(genre === "hiphopblends"){
+      return "HipHop Blends";
+    }
+    if(genre === "soul"){
+      return "Soul";
+    }
+    if(genre ==="instrumentals"){
+      return "Instrumentals";
+    }
+    if(genre ==="s&c"){
+      return "Screwed & Chopped";
+    }
   }
 
   getRange(range){

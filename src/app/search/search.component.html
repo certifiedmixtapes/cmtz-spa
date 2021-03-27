@@ -1,3 +1,4 @@
+<infinite-scroll (scrolled)="onScroll()">
 <div  *ngIf="isMobile" >
   <div class="search-container">
    <i style="color: #3b97f9;" class="fa fa-search search-icon"></i>
@@ -6,6 +7,15 @@
   </div>
 </div>
 <h4>{{artistName}} - Search</h4>
+<br>
+<div class="row">
+  <button class="button button--pill" (click)="playArtistRadio(radio.artists)" aria-label="Clear the current queue" *ngFor="let radio of artistResults">
+    <i style="margin-right: 5px;" class="fas fa-play"></i>
+    {{radio.artists}}
+  </button>
+</div>
+<br>
+
 <mat-divider></mat-divider>
 <div class="row">
   <div class="col-xs-6 col-sm-3" *ngFor="let album of albumArray">
@@ -25,3 +35,7 @@
     </mat-card>
   </div>
 </div>
+<div class=""*ngIf="isLoading$">
+  Loading mixtapes...
+ </div>
+</infinite-scroll>

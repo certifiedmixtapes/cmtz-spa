@@ -1,7 +1,12 @@
+import { ViewChild } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../environments/environment';
 
+interface VideoElement extends HTMLVideoElement{
+  requestPictureInPicture(): any;
+}
 
 @Component({
   selector: 'app-video-details',
@@ -13,8 +18,8 @@ export class VideoDetailsComponent implements OnInit {
   video: any;
   player: YT.Player;
   videoId: any;
-  //videoId = 'gQ0kZBjrgv4';
-
+  ytvideoId: any;
+  @ViewChild("videoElement") videoElement: ElementRef;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -31,16 +36,27 @@ export class VideoDetailsComponent implements OnInit {
             //"https://www.youtube.com/watch?v=KxbRMd4AnLs"
             var videoUrl = this.video.videoName;
             if(videoUrl.includes("https://www.youtube.com/watch?v=")){
-              this.videoId = videoUrl.replace("https://www.youtube.com/watch?v=","").trim();
+              this.ytvideoId = videoUrl.replace("https://www.youtube.com/watch?v=","").trim();
               console.log("Video " + this.videoId);
+            }
+            else{
+              this.videoId = videoUrl;
             }
             
           })
         }
       );
-
-
     });
+  }
+
+  ngAfterViewInit(){
+    if(this.videoElement !==undefined){
+      const video:  VideoElement = this.videoElement.nativeElement;
+      console.log("Video " + video);
+      video.addEventListener('play', async (e) => {
+        await video.requestPictureInPicture();
+      })
+    }
   }
 
   savePlayer(player) {

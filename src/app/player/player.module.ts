@@ -21,6 +21,7 @@ import { MatCardModule } from '@angular/material/card';
     CdkTableModule,
     DragDropModule,
     MatButtonModule,
+    RouterModule,
     MatIconModule,
     MatToolbarModule,
     MatCardModule,
