@@ -55,8 +55,8 @@ export class HomeComponent implements OnInit {
           this.featuredArray = response.responseObject;
           for(let f = 0; f < this.featuredArray.length; f++){
             var coverImage = this.featuredArray[f].coverImageName;
-             this.featuredArray[f].coverImageName = "http://do-images-klqk8.ondigitalocean.app/remote/" + coverImage ;//+ "?width=350&webp.lossless=true";
-             this.featuredArray[f].thumbImg = "http://do-images-klqk8.ondigitalocean.app/remote/" + coverImage; // + "?width=200&webp.lossless=true";
+             this.featuredArray[f].coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage ;//+ "?width=350&webp.lossless=true";
+             this.featuredArray[f].thumbImg = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage; // + "?width=200&webp.lossless=true";
           }
       }
     );
