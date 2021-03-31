@@ -45,10 +45,52 @@ import {MatMenuModule} from '@angular/material/menu';
 //import { LazyImgDirective } from './img-lazy-load/lazy-img.directive';
 import { PlayerModule } from './player/player.module';
 //import { LoadableModule , matcher} from 'ngx-loadable';
+import { Breakpoints } from '@angular/cdk/layout';
 import { HomeModule } from './home/home.module';
+import {
+  DEFAULT_BREAKPOINTS,
+  ImageFormat,
+  NgxPictureConfig,
+  NgxPictureModule
+} from 'ngx-picture';
 
+//?width=350&webp.lossless=true
+export function srcInterpolator(
+  url: string,
+  imageFormat: ImageFormat,
+  breakpoint: string,
+  breakpointValue: number
+) {
+  console.log("url: " + url);
+  console.log(breakpointValue);
+  console.log(breakpoint);
+  return `${url}?width=${breakpointValue}&webp.lossless=true`;
+}
 
-
+export interface Dimensions {
+  h: number;
+  w: number;
+}
+ 
+const ngxPictureConfig: NgxPictureConfig<Dimensions> = {
+  breakpoints: {
+    [Breakpoints.XSmall]: { h: 100, w: 100 },
+    [Breakpoints.Medium]: { h: 200, w: 200 },
+    [Breakpoints.Large]: { h: 300, w: 300 }
+  },
+  imageFormats: ['webp', 'jpg'],
+  srcInterpolator: (
+    url: string,
+    imageFormat: ImageFormat,
+    breakpoint: string,
+    breakpointValue: Dimensions
+  ) => {
+    console.log("url: " + url);
+    console.log(breakpointValue);
+    console.log(breakpoint);
+    return `${url}?width=${breakpointValue.w}&webp.lossless=true`
+  }
+};
 
 @NgModule({
   declarations: [
@@ -59,6 +101,12 @@ import { HomeModule } from './home/home.module';
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+   /* NgxPictureModule.forRoot({
+      breakpoints: DEFAULT_BREAKPOINTS, //2. the break points to create sources for
+      imageFormats: ['webp', 'jpeg'], //3. the image formats to create sources for. *
+      srcInterpolator 
+    }),*/
+    NgxPictureModule.forRoot(ngxPictureConfig),
     DeviceDetectorModule.forRoot(),
     HttpClientModule,
     HttpClientJsonpModule,

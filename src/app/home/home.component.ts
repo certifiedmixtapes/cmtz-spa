@@ -55,8 +55,8 @@ export class HomeComponent implements OnInit {
           this.featuredArray = response.responseObject;
           for(let f = 0; f < this.featuredArray.length; f++){
             var coverImage = this.featuredArray[f].coverImageName;
-             this.featuredArray[f].coverImageName = "http://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=350&webp.lossless=true";
-             this.featuredArray[f].thumbImg = "http://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=200&webp.lossless=true";
+             this.featuredArray[f].coverImageName = "http://do-images-klqk8.ondigitalocean.app/remote/" + coverImage ;//+ "?width=350&webp.lossless=true";
+             this.featuredArray[f].thumbImg = "http://do-images-klqk8.ondigitalocean.app/remote/" + coverImage; // + "?width=200&webp.lossless=true";
           }
       }
     );
@@ -69,8 +69,8 @@ export class HomeComponent implements OnInit {
           for(let f = 0; f < this.mixtapeArray.length; f++){
             var coverImage = this.mixtapeArray[f].coverImageName;
              //var baseImage = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","http://images.certifiedmixtapes.com/do");
-             this.mixtapeArray[f].coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=350&webp.lossless=true";
-             this.mixtapeArray[f].thumbImg = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=200&webp.lossless=true";
+             this.mixtapeArray[f].coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage; // + "?width=350&webp.lossless=true";
+             this.mixtapeArray[f].thumbImg = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage; // + "?width=200&webp.lossless=true";
              /*this.mixtapeArray[f].imageSrcSet = [
               baseImage + "?width=200&webp.lossless=true 150w",
               baseImage + "?width=200&webp.lossless=true 255w",
@@ -107,8 +107,8 @@ export class HomeComponent implements OnInit {
                 this.singleArray = response.responseObject[0].items;
                 for(let f = 0; f < this.singleArray.length; f++){
                   var coverImage = this.singleArray[f].album.coverImageName;
-                  this.singleArray[f].album.coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=350&webp.lossless=true";
-                  this.singleArray[f].album.thumbImg = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage + "?width=200&webp.lossless=true";
+                  this.singleArray[f].album.coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage ;//+ "?width=350&webp.lossless=true";
+                  this.singleArray[f].album.thumbImg = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage; // + "?width=200&webp.lossless=true";
                 }
       
             }

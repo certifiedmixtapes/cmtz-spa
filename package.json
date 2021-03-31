@@ -44,6 +44,7 @@
     "ngx-device-detector": "^1.5.2",
     "ngx-infinite-scroll": "^10.0.0",
     "ngx-loadable": "^2.1.1",
+    "ngx-picture": "^2.0.14",
     "ngx-youtube-player": "^7.1.5",
     "popper.js": "^1.16.1",
     "rxjs": "~6.6.3",

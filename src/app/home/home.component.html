@@ -9,7 +9,11 @@
                     <div class="item-overlay play-overlay center">
                         <mat-icon *ngIf="hoverButton === album.id" mat-list-icon>play_arrow_rounded</mat-icon>
                     </div>
-                    <img appLazyLoad src="{{isMobile ? album.thumbImg : album.coverImageName}}"  width="100%" class="responsive-image">
+                    <!--img appLazyLoad src="{{isMobile ? album.thumbImg : album.coverImageName}}"  width="100%" class="responsive-image"-->
+                    <ngx-picture src="{{isMobile ? album.thumbImg : album.coverImageName}}" alt="{{album.title}}"
+                    [lazyLoad]="true" width="100%" class="responsive-image">
+                    </ngx-picture>
+
                     <!--img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
                         src="{{album.coverImageName}}?webp.lossless=true" alt="{{album.title}}"-->
                 </div>
@@ -31,9 +35,12 @@
                     <div class="item-overlay play-overlay center">
                         <mat-icon *ngIf="hoverButton === album.id" mat-list-icon>play_arrow_rounded</mat-icon>
                     </div>
-                    <img appLazyLoad [src]="isMobile ? album.thumbImg : album.coverImageName"  width="100%" class="responsive-image">
+                    <!--img appLazyLoad [src]="isMobile ? album.thumbImg : album.coverImageName"  width="100%" class="responsive-image"-->
                     <!--img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
                     src="{{album.coverImageName}}?webp.lossless=true" alt="{{album.title}}"-->
+                    <ngx-picture src="{{isMobile ? album.thumbImg : album.coverImageName}}" alt="{{album.title}}"
+                    [lazyLoad]="true" width="100%" class="responsive-image">
+                    </ngx-picture>
 
                 </div>
             </mat-card-content>
@@ -53,9 +60,13 @@
     <div class="col-lg-2 col-md-4 col-sm-3 col-xs-6" *ngFor="let album of videoArray">
         <mat-card class="album-card" matRipple routerLink="/video/{{album.id}}"> 
             <mat-card-content>
-            <img appLazyLoad [src]="album.videoPoster"  width="100%" class="responsive-image">
+            <!--img appLazyLoad [src]="album.videoPoster"  width="100%" class="responsive-image"-->
             <!--img srcset="{{album.imageSrcSet.toString()}}" sizes="{{album.imageSize.toString()}}" width="100%" class="responsive-image"
             src="{{album.videoPoster}}?webp.lossless=true" alt="{{album.title}}"-->
+            <ngx-picture src="{{album.videoPoster}}" alt="{{album.title}}"
+            [lazyLoad]="true" width="100%" class="responsive-image">
+            </ngx-picture>
+
 
             </mat-card-content>
             <mat-card-header class="album-header">
@@ -78,7 +89,11 @@
                         <div class="item-overlay play-overlay center">
                             <mat-icon *ngIf="hoverButton === track.id" mat-list-icon>play_arrow_rounded</mat-icon>
                         </div>
-                        <img appLazyLoad [src]="isMobile ? track.album.thumbImg : track.album.coverImageName"  width="100%" height="100%" class="responsive-image">
+                        <!--img appLazyLoad [src]="isMobile ? track.album.thumbImg : track.album.coverImageName"  width="100%" height="100%" class="responsive-image"-->
+                        <ngx-picture src="{{isMobile ? track.album.thumbImg : track.album.coverImageName}}" alt="{{track.trackTitle}}"
+                        [lazyLoad]="true" width="100%" class="responsive-image">
+                        </ngx-picture>
+    
                     </div>
                     <div>
                         <div>{{track.trackTitle}}</div>
@@ -103,7 +118,10 @@
                     <div class="item-overlay play-overlay center">
                             <mat-icon *ngIf="hoverButton === radio.id" mat-list-icon>play_arrow_rounded</mat-icon>
                     </div>
-                    <img appLazyLoad [src]="radio.coverImageName"  width="100%" class="responsive-image">
+                    <!--img appLazyLoad [src]="radio.coverImageName"  width="100%" class="responsive-image"-->
+                    <ngx-picture src="{{radio.coverImageName}}" alt="{{radio.title}}"
+                    [lazyLoad]="true" width="100%" class="responsive-image">
+                    </ngx-picture>
                 </div>
             </mat-card-content>
             <mat-card-header class="album-header">
