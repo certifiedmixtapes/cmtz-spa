@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ItunesService } from '../shared/itunes.service';
 import { ActivatedRoute } from '@angular/router';
 import { Album } from '../album/album.model';
 import { PlayerService } from '../shared/player.service';
@@ -37,7 +36,6 @@ export class AlbumDetailsComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private ituneService: ItunesService,
     private route: ActivatedRoute,
     private playerService: PlayerService,
     private http: HttpClient,

@@ -71,19 +71,7 @@ export class HomeComponent implements OnInit {
              //var baseImage = coverImage.replace("http://cmtz.nyc3.cdn.digitaloceanspaces.com","http://images.certifiedmixtapes.com/do");
              this.mixtapeArray[f].coverImageName = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage; // + "?width=350&webp.lossless=true";
              this.mixtapeArray[f].thumbImg = "https://do-images-klqk8.ondigitalocean.app/remote/" + coverImage; // + "?width=200&webp.lossless=true";
-             /*this.mixtapeArray[f].imageSrcSet = [
-              baseImage + "?width=200&webp.lossless=true 150w",
-              baseImage + "?width=200&webp.lossless=true 255w",
-              baseImage + "?width=340&webp.lossless=true  340w",
-              baseImage + "?width=500&webp.lossless=true 500w",
-            ];
-            this.mixtapeArray[f].imageSize = [
-              "(max-width: 200px) 160px",
-              "(max-width: 340px) 300px",
-              "500px"
-            ]*/
           }
-       // })
       }
     );
 
@@ -174,17 +162,10 @@ export class HomeComponent implements OnInit {
   playVideo(index){
     console.log(index)
     this.videoService.queueTracks(this.singleArray);
-    //this.playerService.shouldShow(true);
     var start = Number(index);
-    /*this.router.navigate([
-      "video",
-      album.id,
-    ]);*/
-    //this.playerService.playTrack(start.toString());
   }
 
   onGetTracks(album) {
-    //this.ituneService.tracksSubject.next(album);
     console.log(album)
     this.router.navigate([
       "album",

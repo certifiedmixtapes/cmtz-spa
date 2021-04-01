@@ -17,7 +17,7 @@ global['navigator'] = win.navigator
 global['self'] = win
 global['IDBIndex'] = win.IDBIndex
 global['getComputedStyle'] = win.getComputedStyle;
-/*global['window']['msRequestAnimationFrame']  = function(callback) {
+global['msRequestAnimationFrame']  = function(callback) {
   let lastTime = 0;
   const currTime = new Date().getTime();
   const timeToCall = Math.max(0, 16 - (currTime - lastTime));
@@ -26,7 +26,7 @@ global['getComputedStyle'] = win.getComputedStyle;
     timeToCall);
   lastTime = currTime + timeToCall;
   return id;
-};*/
+};
 
 
 global['cancelAnimationFrame'] = function(id) {

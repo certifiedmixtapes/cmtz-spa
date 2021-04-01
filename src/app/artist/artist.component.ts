@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ItunesService } from '../shared/itunes.service';
-import { filter, map } from 'rxjs/operators';
+//import { filter, map } from 'rxjs/operators';
 import {environment} from '../../environments/environment'
 
 @Component({
@@ -17,21 +16,11 @@ export class ArtistComponent implements OnInit {
   searchResults: Array<any> = [];
   artistID: number = 0;
   selectedArtist: string;
-  constructor(private ituneService: ItunesService) {}
+  constructor() {}
 
   ngOnInit() {}
 
   ///api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=3&searchString=future&currentPage=1&itemsPerPage=15
-  search(param) {
-    this.ituneService.search(param).subscribe(
-      data => {
-        // console.log(data['results']);
-        this.searchResults = data['results'];
-      },
-      err => console.log(err)
-    );
-  }
-
   searchByArtist(searchTerm){
     fetch( environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=3&searchString=" + searchTerm "&currentPage=1&itemsPerPage=12').then(
       res => {

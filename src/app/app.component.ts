@@ -1,5 +1,4 @@
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit, PLATFORM_ID, Inject } from '@angular/core';
-import { ItunesService } from './shared/itunes.service';
 import { fromEvent,interval, Subject, Subscription } from 'rxjs';
 import { debounceTime} from 'rxjs/operators';
 import { PlayerService } from './shared/player.service';
@@ -29,7 +28,7 @@ export class AppComponent implements OnInit,AfterViewInit {
   isMobile: boolean = false;
   buttonStream$: Subscription
   searchResults: Array<any> = [];
-  constructor(private router: Router, private ituneService: ItunesService, private playerService: PlayerService, private deviceService: DeviceDetectorService, @Inject(PLATFORM_ID) private platformId: string,
+  constructor(private router: Router, private playerService: PlayerService, private deviceService: DeviceDetectorService, @Inject(PLATFORM_ID) private platformId: string,
   ) {
     this.checkBrowser();
     this.router.events.subscribe(event => {
@@ -68,10 +67,8 @@ export class AppComponent implements OnInit,AfterViewInit {
   }
 
   keyup(event) {
-    console.log(event);
-    //console.log(this.searchValue);
     this.searchTextChanged.next(event);
-}
+  }
 
   searchEnter(search){
     this.onResultClick();
@@ -89,17 +86,6 @@ export class AppComponent implements OnInit,AfterViewInit {
 
   showing(){
     return this.playerService.isShowing();
-  }
-
-  search(param) {
-    this.ituneService.search(param).subscribe(
-      data => {
-        // console.log(data['results']);
-        this.hideResult=false;
-        this.searchResults = data['results'];
-      },
-      err => console.log(err)
-    );
   }
 
   searchByArtist(searchTerm){
