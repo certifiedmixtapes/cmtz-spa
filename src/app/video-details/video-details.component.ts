@@ -28,7 +28,7 @@ export class VideoDetailsComponent implements OnInit {
       this.routeParams = params;
       var id = params.id;
 
-      fetch(environment.apiUrl +'/api/videos/' + id + '?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').then(
+      fetch(environment.apiUrl +'/api/videos/' + id + '').then(
         res => {
           res.json().then( response =>{
             console.log(response.responseObject[0]);
