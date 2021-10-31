@@ -1,8 +1,8 @@
 # Certified Mixtapes
 
-![homepage feat](ctmz-images/Screen Shot 2021-10-31 at 6.00.45 PM.png)
+![homepage feat](ctmz-images/feat.png)
 
-![homepage mixtapes](ctmz-images/Screen Shot 2021-10-31 at 6.00.58 PM.png)
+![homepage mixtapes](ctmz-images/mixtapes.png)
 
 ## Libraries
 
