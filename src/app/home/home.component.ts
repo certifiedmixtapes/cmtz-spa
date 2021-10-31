@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     //Featured
-    this.http.get<any>(environment.apiUrl + '/api/mixtapes/featured?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').subscribe(
+    this.http.get<any>(environment.apiUrl + '/api/mixtapes/featured').subscribe(
       response => {
           this.featuredArray = response.responseObject;
           for(let f = 0; f < this.featuredArray.length; f++){
@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
     );
 
     // New Mixtapes
-    this.http.get<any>(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').subscribe(
+    this.http.get<any>(environment.apiUrl + '/api/mixtapes/paged?currentPage=1&itemsPerPage=12').subscribe(
       response => {
        // res.json().then( response =>{
           this.mixtapeArray = response.responseObject[0].items;
@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
     );
 
     // New Videos
-    this.http.get<any>(environment.apiUrl + '/api/videos/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&currentPage=1&itemsPerPage=12').subscribe(
+    this.http.get<any>(environment.apiUrl + '/api/videos/paged?currentPage=1&itemsPerPage=12').subscribe(
       response => {
           // 240 * 180
           this.videoArray = response.responseObject[0].items;
@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit {
 
     if(!this.isMobile){
     // Trending Single
-      this.http.get<any>(environment.apiUrl + '/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&trackSort=4&range=1&singleType=1&itemsPerPage=20&currentPage=1').subscribe(
+      this.http.get<any>(environment.apiUrl + '/api/tracks/paged?trackSort=4&range=1&singleType=1&itemsPerPage=20&currentPage=1').subscribe(
         response => {
                 this.singleArray = response.responseObject[0].items;
                 for(let f = 0; f < this.singleArray.length; f++){
@@ -116,7 +116,7 @@ export class HomeComponent implements OnInit {
     }
 
      // Radio Genre
-     this.http.get<any>(environment.apiUrl + '/api/radio/list?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758').subscribe(
+     this.http.get<any>(environment.apiUrl + '/api/radio/list').subscribe(
       response => {
         //res.json().then( response =>{
           this.radioArray = response.responseObject;
@@ -149,7 +149,7 @@ export class HomeComponent implements OnInit {
 
   playTracks(album){
     var id = album.id;
-      fetch(environment.apiUrl + '/api/tracks?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&albumId='+ id).then(
+      fetch(environment.apiUrl + '/api/tracks?albumId='+ id).then(
       res => {
         res.json().then( response =>{
           var tracks = response.responseObject;
@@ -194,7 +194,7 @@ export class HomeComponent implements OnInit {
 
   getRadio(radioStation){
     var genre = radioStation.genreType;
-    fetch(environment.apiUrl + '/api/radio?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&genre='+ genre).then(
+    fetch(environment.apiUrl + '/api/radio?genre='+ genre).then(
       res => {
         res.json().then( response =>{
           console.log("Genre: "+ genre);
