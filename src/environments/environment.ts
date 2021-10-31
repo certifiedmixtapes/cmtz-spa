@@ -4,8 +4,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://api.certifiedmixtapez.com"
-  //apiUrl: "https://cmtz-api-router.certifiedmixtapes.workers.dev"
 };
 
 /*
