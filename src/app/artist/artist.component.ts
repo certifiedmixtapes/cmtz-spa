@@ -21,7 +21,6 @@ export class ArtistComponent implements OnInit {
 
   ngOnInit() {}
 
-  ///api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=3&searchString=future&currentPage=1&itemsPerPage=15
   search(param) {
     this.ituneService.search(param).subscribe(
       data => {
@@ -33,7 +32,7 @@ export class ArtistComponent implements OnInit {
   }
 
   searchByArtist(searchTerm){
-    fetch( environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=3&searchString=" + searchTerm "&currentPage=1&itemsPerPage=12').then(
+    fetch( environment.apiUrl + '/api/mixtapes/paged?searchOptionType=3&searchString=" + searchTerm "&currentPage=1&itemsPerPage=12').then(
       res => {
         res.json().then( response =>{
           console.log(response);
