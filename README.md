@@ -4,6 +4,8 @@ The objective of this project is to isolate our visual layer of our application 
 
 Cloudflare workers was implemented to serve the application from the edge for faster load times and a better experience from any location.
 
+Prototype: https://www.certifiedmixtapes.com
+
 ![homepage feat](ctmz-images/feat.png)
 
 ![homepage mixtapes](ctmz-images/mixtapes.png)
