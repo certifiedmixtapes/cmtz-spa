@@ -68,7 +68,7 @@ export class SearchComponent implements OnInit {
 
   searchByArtist(searchTerm){
     console.log("Term: " + searchTerm);
-    fetch( environment .apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=3&searchString=' + searchTerm + '&currentPage=1&itemsPerPage=12').then(
+    fetch( environment .apiUrl + '/api/mixtapes/paged?searchOptionType=3&searchString=' + searchTerm + '&currentPage=1&itemsPerPage=12').then(
       res => {
         res.json().then( response =>{
            let temp = response.responseObject[0].items;//.splice(0,5);
@@ -101,7 +101,7 @@ export class SearchComponent implements OnInit {
   };
 
   getSinglesByArtist(artist){
-    this.http.get<any>(environment.apiUrl + '/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&trackSort=4&range=4&singleType=3&searchString=' + artist + '&itemsPerPage=50&currentPage=1').subscribe(
+    this.http.get<any>(environment.apiUrl + '/api/tracks/paged?trackSort=4&range=4&singleType=3&searchString=' + artist + '&itemsPerPage=50&currentPage=1').subscribe(
       res => {
           this.radio = this.shuffle(res.responseObject[0].items);   
           console.log("Single: " + this.radio) 
@@ -112,7 +112,7 @@ export class SearchComponent implements OnInit {
   getAlbum(searchTerm){
     this.artistName = searchTerm;
     console.log("Term: " + searchTerm);
-    fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=1&searchString=' + searchTerm + '&currentPage=1&itemsPerPage=12').then(
+    fetch(environment.apiUrl + '/api/mixtapes/paged?searchOptionType=1&searchString=' + searchTerm + '&currentPage=1&itemsPerPage=12').then(
       res => {
         res.json().then( response =>{
           this.albumArray = response.responseObject[0].items;
@@ -125,7 +125,7 @@ export class SearchComponent implements OnInit {
     this.isLoading$ = true;
     this.page = this.page + 1;
 
-    fetch(environment.apiUrl + '/api/mixtapes/paged?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&searchOptionType=1&searchString=' + this.artistName + '&currentPage='+ this.page +'&itemsPerPage=12').then(
+    fetch(environment.apiUrl + '/api/mixtapes/paged?searchOptionType=1&searchString=' + this.artistName + '&currentPage='+ this.page +'&itemsPerPage=12').then(
       res => {
         res.json().then( response =>{
           var nextPage = response.responseObject[0].items;
@@ -158,7 +158,7 @@ export class SearchComponent implements OnInit {
   }
 
   playArtistRadio(artist){
-    this.http.get<any>(environment.apiUrl + '/api/tracks/paged?accesskey=4a4897e2-2bae-411f-9c85-d59789afc758&singleType=3&searchString=' + artist + '&itemsPerPage=50&currentPage=1').subscribe(
+    this.http.get<any>(environment.apiUrl + '/api/tracks/paged?singleType=3&searchString=' + artist + '&itemsPerPage=50&currentPage=1').subscribe(
       res => {
           console.log(res);
           this.radio = this.shuffle(res.responseObject[0].items);   
@@ -174,7 +174,7 @@ export class SearchComponent implements OnInit {
 
   playTracks(album){
     var id = album.id;
-      fetch(environment.apiUrl + '/api/tracks?accessKey=4a4897e2-2bae-411f-9c85-d59789afc758&albumId='+ id).then(
+      fetch(environment.apiUrl + '/api/tracks?albumId='+ id).then(
       res => {
         res.json().then( response =>{
           var tracks = response.responseObject;
