@@ -10,7 +10,7 @@ Prototype: https://www.certifiedmixtapes.com
 
 ![homepage mixtapes](ctmz-images/mixtapes.png)
 
-![details](ctmz-images/details\ page.png)
+![details](ctmz-images/details.png)
 
 ![homepage radio](ctmz-images/radio.png)
 
