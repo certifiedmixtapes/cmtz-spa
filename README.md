@@ -10,6 +10,11 @@ Prototype: https://www.certifiedmixtapes.com
 
 ![homepage mixtapes](ctmz-images/mixtapes.png)
 
+![details](ctmz-images/details\ page.png)
+
+![homepage radio](ctmz-images/radio.png)
+
+
 ## Libraries
 
 [wavesurfer js](https://wavesurfer-js.org/)<br>
